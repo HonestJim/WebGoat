@@ -1,4 +1,12 @@
 # Starter pipeline
+- task: FortifyScanCentralSAST@6
+  inputs:
+    scanCentralCtrlUrl: 'https://qa-cs-r-ctrl.prgqa.hpecorp.net:8443/scancentral-ctrl/'
+    scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    sscUrl: 'http://52.156.71.223:8080/ssc'
+    uploadToSSC: true
+    applicationVersionId: '9'
+    buildTool: 'none'
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
