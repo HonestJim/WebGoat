@@ -1,4 +1,11 @@
 # Starter pipeline
+- task: FortifyScanCentralSAST@6
+  inputs:
+    scanCentralCtrlUrl: 'http://cloud-ctrl.westus2.cloudapp.azure.com:8080/scancentral-ctrl'
+    scanCentralClientToken: '$(ScanCentral.ClientToken)'
+    sscUrl: 'http://52.156.71.223:8080/ssc'
+    uploadToSSC: true
+    applicationVersionId: '9'
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
