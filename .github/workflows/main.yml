@@ -1,0 +1,23 @@
+on: [push]
+ 
+jobs:
+  sigma_analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    container:
+      image: sigsynopsys/sigma-release-image:latest
+      credentials:
+        username: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_PASSWORD }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+ 
+      - name: SIGMA analysis
+        run: sigma -j4 analyze --format sarif .
+ 
+      - name: Upload SARIF file
+        uses: actions/upload-artifact@v2
+        with:
+          name: sigma-results
+          path: sigma-results.json
