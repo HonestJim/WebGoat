@@ -1,3 +1,25 @@
+/*
+ * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
+ *
+ * Copyright (c) 2002 - 2019 Bruce Mayhew
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU General Public License as published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if
+ * not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * Getting Source ==============
+ *
+ * Source for this application is maintained at https://github.com/WebGoat/WebGoat, a repository for free software projects.
+ */
+
 package org.owasp.webwolf.mailbox;
 
 import lombok.AllArgsConstructor;
@@ -7,6 +29,8 @@ import org.owasp.webwolf.user.WebGoatUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,21 +40,16 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * @author nbaars
- * @since 8/17/17.
- */
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class MailboxController {
 
-    private final UserRepository userRepository;
     private final MailboxRepository mailboxRepository;
 
     @GetMapping(value = "/WebWolf/mail")
     public ModelAndView mail() {
-        WebGoatUser user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
         List<Email> emails = mailboxRepository.findByRecipientOrderByTimeDesc(user.getUsername());
         if (emails != null && !emails.isEmpty()) {
@@ -44,13 +63,8 @@ public class MailboxController {
     @PostMapping(value = "/mail")
     public Callable<ResponseEntity<?>> sendEmail(@RequestBody Email email) {
         return () -> {
-            if (userRepository.findByUsername(email.getRecipient()) != null) {
-                mailboxRepository.save(email);
-                return ResponseEntity.status(HttpStatus.CREATED).build();
-            } else {
-                log.trace("Mail received for unknown user: {}", email.getRecipient());
-                return ResponseEntity.notFound().build();
-            }
+            mailboxRepository.save(email);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         };
     }
 

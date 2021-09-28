@@ -1,17 +1,12 @@
 
 package org.owasp.webgoat.users;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
-import org.owasp.webgoat.lessons.AbstractLesson;
+import org.owasp.webgoat.lessons.Lesson;
 import org.owasp.webgoat.lessons.Assignment;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -22,7 +17,7 @@ import java.util.stream.Collectors;
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details,
  * please see http://www.owasp.org/
  * <p>
- * Copyright (c) 2002 - 20014 Bruce Mayhew
+ * Copyright (c) 2002 - 2014 Bruce Mayhew
  * <p>
  * This program is free software; you can redistribute it and/or modify it under the terms of the
  * GNU General Public License as published by the Free Software Foundation; either version 2 of the
@@ -47,23 +42,28 @@ import java.util.stream.Collectors;
  */
 @Entity
 public class LessonTracker {
-    @Getter
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Getter
     private String lessonName;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private final Set<Assignment> solvedAssignments = Sets.newHashSet();
+    private final Set<Assignment> solvedAssignments = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private final List<Assignment> allAssignments = Lists.newArrayList();
+    private final Set<Assignment> allAssignments = new HashSet<>();
     @Getter
     private int numberOfAttempts = 0;
+    @Version
+    private Integer version;
 
     private LessonTracker() {
         //JPA
     }
 
-    public LessonTracker(AbstractLesson lesson) {
+    public LessonTracker(Lesson lesson) {
         lessonName = lesson.getId();
-        allAssignments.addAll(lesson.getAssignments());
+        allAssignments.addAll(lesson.getAssignments() == null ? List.of() : lesson.getAssignments());
     }
 
     public Optional<Assignment> getAssignment(String name) {
