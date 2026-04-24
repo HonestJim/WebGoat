@@ -48,7 +48,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**").addResourceLocations("file:///" + fileLocatation + "/");
+        String safeLocation = java.nio.file.Paths.get(fileLocatation).normalize().toAbsolutePath().toString();
+        registry.addResourceHandler("/files/**").addResourceLocations("file:///" + safeLocation + "/");
     }
 
     @Override

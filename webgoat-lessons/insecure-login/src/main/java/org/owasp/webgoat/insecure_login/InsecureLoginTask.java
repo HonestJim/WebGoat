@@ -35,9 +35,10 @@ public class InsecureLoginTask extends AssignmentEndpoint {
     @PostMapping("/InsecureLogin/task")
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
-    	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
-    		return success(this).build();
-    	}
+        // Use a user service to verify credentials securely against a datastore with hashed passwords.
+        if (userService.verifyCredentials(username, password)) {
+            return success(this).build();
+        }
         return failed(this).build();
     }
 }

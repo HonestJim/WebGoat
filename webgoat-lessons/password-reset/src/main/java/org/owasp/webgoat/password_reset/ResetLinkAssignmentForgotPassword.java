@@ -62,7 +62,7 @@ public class ResetLinkAssignmentForgotPassword extends AssignmentEndpoint {
     public AttackResult sendPasswordResetLink(@RequestParam String email, HttpServletRequest request) {
         String resetLink = UUID.randomUUID().toString();
         ResetLinkAssignment.resetLinks.add(resetLink);
-        String host = request.getHeader("host");
+        String host = request.getServerName();
         if (hasText(email)) {
             if (email.equals(ResetLinkAssignment.TOM_EMAIL) && (host.contains("9090")||host.contains("webwolf"))) { //User indeed changed the host header.
                 ResetLinkAssignment.userToTomResetLink.put(getWebSession().getUserName(), resetLink);

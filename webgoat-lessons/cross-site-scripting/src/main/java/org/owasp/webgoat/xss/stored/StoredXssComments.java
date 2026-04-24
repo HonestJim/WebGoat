@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class StoredXssComments extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult createNewComment(@RequestBody String commentStr) {
         Comment comment = parseJson(commentStr);
+        // Sanitize user input to prevent XSS
+        comment.setText(HtmlUtils.htmlEscape(comment.getText())); // You will need to import org.springframework.web.util.HtmlUtils
 
         List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
         comment.setDateTime(DateTime.now().toString(fmt));

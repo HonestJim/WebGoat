@@ -47,6 +47,7 @@ public class RegistrationController {
     private UserValidator userValidator;
     private UserService userService;
     private AuthenticationManager authenticationManager;
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String showForm(UserForm userForm) {
@@ -61,7 +62,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        userService.addUser(userForm.getUsername(), userForm.getPassword());
+        userService.addUser(userForm.getUsername(), passwordEncoder.encode(userForm.getPassword()));
         request.login(userForm.getUsername(), userForm.getPassword());
 
         return "redirect:/WebWolf/home";

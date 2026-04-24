@@ -34,7 +34,7 @@
                 <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
                        th:href="'#collapse' + ${iter.index}" aria-expanded="false" th:aria-controls="'collapse' + ${iter.index}">
-                        <span th:utext="${trace.date}"/> | <span th:utext="${trace.path}"/>
+                        <span th:text="${trace.date}"/> | <span th:text="${trace.path}"/>
                     </a>
                 </h4>
             </div>
@@ -42,7 +42,7 @@
                  th:aria-labelledby="'heading' + ${iter.index}">
                 <div class="panel-body">
                     <div>
-                        <pre th:utext="${trace.json}"/>
+                        <pre th:text="${trace.json}"/>
                     </div>
                 </div>
             </div>

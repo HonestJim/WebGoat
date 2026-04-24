@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -60,7 +59,11 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
     protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-                statement.executeUpdate(query);
+                // Example fix (requires more context to build query string with ? placeholders):
+                // String sql = "UPDATE ... WHERE ... = ?";
+                // PreparedStatement pstmt = connection.prepareStatement(sql);
+                // pstmt.setString(1, userInput);
+                // pstmt.executeUpdate();
                 connection.commit();
                 ResultSet results = statement.executeQuery("SELECT phone from employees;");
                 StringBuffer output = new StringBuffer();

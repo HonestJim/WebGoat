@@ -53,21 +53,6 @@ following construct:<br><br></p>
 <code>
 	StringBuffer sb = new StringBuffer();<br>
 	
-	sb.append("/Employees/Employee/UserID | ");<br>
-	sb.append("/Employees/Employee/FirstName | ");<br>
-	sb.append("/Employees/Employee/LastName | ");<br>
-	sb.append("/Employees/Employee/SSN | ");<br>
-	sb.append("/Employees/Employee/Salary ");<br>
-	
-	String expression = sb.toString();<br>
-</code>
-<p>
-This string will be used for the XPath query. You have to guarantee that a manger only 
-can see employees which are working for him. To archive this you can use
-filters in XPath. Following code will exactly do this:</p>
-<code>
-	StringBuffer sb = new StringBuffer();<br>
-	
 	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/UserID | ");<br>
 	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/FirstName | ");<br>
 	sb.append("/Employees/Employee[Managers/Manager/text() = " + userId + "]/LastName | ");<br>

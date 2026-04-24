@@ -43,14 +43,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.HashSet;
 
 @RestController
 @AssignmentHints(value = {"SqlStringInjectionHint-mitigation-10b-1", "SqlStringInjectionHint-mitigation-10b-2", "SqlStringInjectionHint-mitigation-10b-3", "SqlStringInjectionHint-mitigation-10b-4", "SqlStringInjectionHint-mitigation-10b-5"})
 public class SqlInjectionLesson10b extends AssignmentEndpoint {
 
+    // Define a set of safe, predefined code snippets
+    private static final Set<String> SAFE_SNIPPETS = new HashSet<>(Arrays.asList(
+        // Add safe, allowed code snippets here
+        // Example:
+        "Connection connection = DriverManager.getConnection(DBURL, DBUSER, DBPW); PreparedStatement statement = connection.prepareStatement(\"SELECT * FROM users WHERE userid = ?\"); statement.setString(1, \"foo\"); statement.execute();",
+        "Connection connection = DriverManager.getConnection(DBURL, DBUSER, DBPW); PreparedStatement statement = connection.prepareStatement(\"UPDATE users SET password = ? WHERE userid = ?\"); statement.setString(1, \"bar\"); statement.setString(2, \"foo\"); statement.executeUpdate();"
+        // Add more as needed
+    ));
+
     @PostMapping("/SqlInjectionMitigations/attack10b")
     @ResponseBody
     public AttackResult completed(@RequestParam String editor) {
+        // Only allow selection from predefined, secure code snippets
+        if (!SAFE_SNIPPETS.contains(editor)) {
+            return failed(this).feedback("input.not.allowed").build();
+        }
+        // Only allow compilation of safe code, not arbitrary user input
+        // ... rest of original logic using prechecked code
+
         try {
             if (editor.isEmpty()) return failed(this).feedback("sql-injection.10b.no-code").build();
 

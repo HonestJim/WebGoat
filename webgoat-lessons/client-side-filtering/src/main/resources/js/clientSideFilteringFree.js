@@ -38,6 +38,7 @@ $(document).ready(function () {
     })
     $(".checkoutCode").on("blur", function () {
         var checkoutCode = $(".checkoutCode").val();
+        if(!/^[a-zA-Z0-9]+$/.test(checkoutCode)) return; // Reject codes with unsafe characters
         $.get("clientSideFiltering/challenge-store/coupons/" + checkoutCode, function (result, status) {
             var discount = result.discount;
             if (discount > 0) {

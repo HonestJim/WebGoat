@@ -16,7 +16,6 @@ import java.security.SecureRandom;
 public class ImageServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 9132775506936676850L;
-	static final public int PINCODE = new SecureRandom().nextInt(10000);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,12 +23,13 @@ public class ImageServlet extends HttpServlet {
 		
 		byte[] in = new ClassPathResource("images/webgoat2.png").getInputStream().readAllBytes();
 		
-		String pincode = String.format("%04d", PINCODE);
+		int pincode = new SecureRandom().nextInt(10000);
+		String pincodeStr = String.format("%04d", pincode);
 		
-		in[81216]=(byte) pincode.charAt(0);
-		in[81217]=(byte) pincode.charAt(1);
-		in[81218]=(byte) pincode.charAt(2);
-		in[81219]=(byte) pincode.charAt(3);
+		in[81216]=(byte) pincodeStr.charAt(0);
+		in[81217]=(byte) pincodeStr.charAt(1);
+		in[81218]=(byte) pincodeStr.charAt(2);
+		in[81219]=(byte) pincodeStr.charAt(3);
 		
 	    response.setContentType(MediaType.IMAGE_PNG_VALUE);
 	    FileCopyUtils.copy(in, response.getOutputStream());

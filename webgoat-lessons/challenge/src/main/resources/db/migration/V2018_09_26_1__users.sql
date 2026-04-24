@@ -2,10 +2,8 @@
 CREATE TABLE challenge_users(
   userid varchar(250),
   email varchar(30),
-  password varchar(30)
+  password_hash varchar(60)
 );
 
-INSERT INTO challenge_users VALUES ('larry', 'larry@webgoat.org', 'larryknows');
-INSERT INTO challenge_users VALUES ('tom', 'tom@webgoat.org', 'thisisasecretfortomonly');
-INSERT INTO challenge_users VALUES ('alice', 'alice@webgoat.org', 'rt*(KJ()LP())$#**');
-INSERT INTO challenge_users VALUES ('eve', 'eve@webgoat.org', '**********');
+-- Insert users with hashed passwords and do not expose real credentials
+-- Example: INSERT INTO challenge_users VALUES ('larry', 'larry@webgoat.org', '$2b$12$...');

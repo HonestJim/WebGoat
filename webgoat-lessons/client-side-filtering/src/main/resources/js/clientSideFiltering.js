@@ -3,7 +3,7 @@ var dataFetched = false;
 function selectUser() {
 
     var newEmployeeID = $("#UserSelect").val();
-    document.getElementById("employeeRecord").innerHTML = document.getElementById(newEmployeeID).innerHTML;
+    document.getElementById("employeeRecord").textContent = document.getElementById(newEmployeeID).textContent;
 }
 
 function fetchUserData() {
@@ -35,7 +35,8 @@ function ajaxFunction(userId) {
         html = html + '</tr></table>';
 
         var newdiv = document.createElement("div");
-        newdiv.innerHTML = html;
+        // TODO: Sanitize fields properly before insertion
+        newdiv.textContent = html;
         var container = document.getElementById("hiddenEmployeeRecords");
         container.appendChild(newdiv);
     });

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Paths;
+
 import static org.springframework.http.MediaType.ALL_VALUE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -24,6 +26,7 @@ public class ProfileUploadRemoveUserInput extends ProfileUploadBase {
     @PostMapping(value = "/PathTraversal/profile-upload-remove-user-input", consumes = ALL_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public AttackResult uploadFileHandler(@RequestParam("uploadedFileRemoveUserInput") MultipartFile file) {
-        return super.execute(file, file.getOriginalFilename());
+        String sanitizedFileName = Paths.get(file.getOriginalFilename()).getFileName().toString();
+        return super.execute(file, sanitizedFileName);
     }
 }

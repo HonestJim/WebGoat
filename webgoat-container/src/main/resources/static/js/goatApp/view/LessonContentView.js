@@ -44,7 +44,7 @@ define(['jquery',
 
             /* initial rendering */
             render: function () {
-                this.$el.find('.lesson-content').html(this.model.get('content'));
+                this.$el.find('.lesson-content').text(this.model.get('content'));
                 this.$el.find('.attack-feedback').hide();
                 this.$el.find('.attack-output').hide();
                 this.makeFormsAjax();
@@ -174,15 +174,15 @@ define(['jquery',
             },
 
             renderFeedback: function (feedback) {
-                var s = this.removeSlashesFromJSON(feedback);
-                this.$curFeedback.html(polyglot.t(s) || "");
+                var s = this.removeSlashesFromJSON(feedback); //If HTML is intended, sanitize s securely before using .html()
+                this.$curFeedback.text(polyglot.t(s) || ""); // Use text() unless you intend to allow HTML and have sanitized it
                 this.$curFeedback.show(400)
 
             },
 
             renderOutput: function (output) {
-                var s = this.removeSlashesFromJSON(output);
-                this.$curOutput.html(polyglot.t(s) || "");
+                var s = this.removeSlashesFromJSON(output); //If HTML is intended, sanitize s securely before using .html()
+                this.$curOutput.text(polyglot.t(s) || ""); // Use text() unless you intend to allow HTML and have sanitized it
                 this.$curOutput.show(400)
             },
 

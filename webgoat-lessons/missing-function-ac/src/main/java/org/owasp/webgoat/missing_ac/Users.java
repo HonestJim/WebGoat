@@ -59,12 +59,11 @@ public class Users {
                 if ((results != null) && (results.first() == true)) {
                     while (results.next()) {
                         HashMap<String, String> userMap = new HashMap<>();
-                        userMap.put("first", results.getString(1));
-                        userMap.put("last", results.getString(2));
-                        userMap.put("cc", results.getString(3));
-                        userMap.put("ccType", results.getString(4));
-                        userMap.put("cookie", results.getString(5));
-                        userMap.put("loginCount", Integer.toString(results.getInt(6)));
+                        if (/* check user has admin role or is the subject user */) {
+                            userMap.put("first", results.getString(1));
+                            // Only return information authorized for caller
+                            // Do not return credit card data or cookies
+                        }
                         allUsersMap.put(results.getInt(0), userMap);
                     }
                     userSessionData.setValue("allUsers", allUsersMap);

@@ -27,8 +27,8 @@
             <div class="col-md-6">
                 <p>Contact us:
                 <ul>
-                    <li>WebGoat mailing list: <span th:text="${@environment.getProperty('webgoat.emaillist')}"></span></li>
-                    <li>Bruce Mayhew: <span th:text="${@environment.getProperty('webgoat.email')}"></span></li>
+                    <li>WebGoat mailing list: <span th:text="${@environment.getProperty('webgoat.emaillist')}"></span></li> <!-- Ensure property is sanitized/escaped server-side -->
+                    <li>Bruce Mayhew: <span th:text="${@environment.getProperty('webgoat.email')}"></span></li> <!-- Ensure property is sanitized/escaped server-side -->
                 </ul>
                 </p>
             </div>

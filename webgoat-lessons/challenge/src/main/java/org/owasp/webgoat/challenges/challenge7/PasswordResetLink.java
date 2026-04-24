@@ -12,11 +12,16 @@ public class PasswordResetLink {
 
     public String createPasswordReset(String username, String key) {
         Random random = new Random();
+        // Use a more secure random seed, ideally from SecureRandom
         if (username.equalsIgnoreCase("admin")) {
-            //Admin has a fix reset link
-            random.setSeed(key.length());
+            try {
+                java.security.SecureRandom secureRandom = java.security.SecureRandom.getInstanceStrong();
+                random.setSeed(secureRandom.generateSeed(16));
+            } catch (java.security.NoSuchAlgorithmException e) {
+                random.setSeed(System.currentTimeMillis());
+            }
         }
-        return scramble(random, scramble(random, scramble(random, MD5.getHashString(username))));
+        return scramble(random, scramble(random, scramble(random, MD5.getHashString(username + key))));
     }
 
     public static String scramble(Random random, String inputString) {

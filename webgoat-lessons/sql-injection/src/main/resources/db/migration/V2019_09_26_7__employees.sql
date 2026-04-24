@@ -4,7 +4,7 @@ CREATE TABLE employees(
   last_name varchar(20),
   department varchar(20),
   salary int,
-  auth_tan varchar(6)
+  auth_tan_hash varchar(64)
 );
 
 INSERT INTO employees VALUES ('32147','Paulina',  'Travers', 'Accounting',  46000, 'P45JSI');

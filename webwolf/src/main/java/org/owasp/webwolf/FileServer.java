@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import static org.springframework.http.MediaType.ALL_VALUE;
@@ -70,7 +71,8 @@ public class FileServer {
         WebGoatUser user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         File destinationDir = new File(fileLocation, user.getUsername());
         destinationDir.mkdirs();
-        myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
+        String safeFilename = Paths.get(myFile.getOriginalFilename()).getFileName().toString();
+        myFile.transferTo(new File(destinationDir, safeFilename));
         log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
         Files.createFile(new File(destinationDir, user.getUsername() + "_changed").toPath());
 

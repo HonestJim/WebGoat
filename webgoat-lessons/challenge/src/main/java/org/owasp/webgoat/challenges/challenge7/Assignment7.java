@@ -78,10 +78,6 @@ public class Assignment7 extends AssignmentEndpoint {
         return success(this).feedback("email.send").feedbackArgs(email).build();
     }
 
-    @GetMapping(value = "/challenge/7/.git", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @ResponseBody
-    public ClassPathResource git() {
-        return new ClassPathResource("challenge7/git.zip");
-    }
-}
+    // Removed public exposure of .git backup
 
+}

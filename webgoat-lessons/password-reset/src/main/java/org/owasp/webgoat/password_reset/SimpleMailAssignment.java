@@ -84,7 +84,7 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
                     .recipient(username)
                     .title("Simple e-mail assignment")
                     .time(LocalDateTime.now())
-                    .contents("Thanks for resetting your password, your new password is: " + StringUtils.reverse(username))
+                    .contents("Thanks for resetting your password, your new password is: " + SecureRandomPasswordUtil.generate())
                     .sender("webgoat@owasp.org")
                     .build();
             try {

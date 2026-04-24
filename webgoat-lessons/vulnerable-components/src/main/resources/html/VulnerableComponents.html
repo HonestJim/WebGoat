@@ -33,7 +33,7 @@
 					/*<![CDATA[*/
 					webgoat.customjs.vuln_jquery_ui = function()
 					{
-						webgoat.customjs.jqueryVuln('#dialog').dialog({ closeText: webgoat.customjs.jquery('#closetext').val() });
+						webgoat.customjs.jqueryVuln('#dialog').dialog({ closeText: escapeHtml(webgoat.customjs.jquery('#closetext').val()) });
 		        	};
 					/*]]>*/
 						</script>

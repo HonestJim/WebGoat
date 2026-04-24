@@ -61,8 +61,9 @@ public class DisplayUser {
 
     protected String genUserHash(String username, String password) throws Exception {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        // salting is good, but static & too predictable ... short too for a salt
-        String salted = password + "DeliberatelyInsecure1234" + username;
+        // Generate a random salt for each user and persist it securely
+        String salt = SecureRandom.getInstanceStrong().generateSeed(16).toString();
+        String salted = password + salt + username; // Store 'salt' for use during verification
         //md.update(salted.getBytes("UTF-8")); // Change this to "UTF-16" if needed
         byte[] hash = md.digest(salted.getBytes("UTF-8"));
         String encoded = Base64.getEncoder().encodeToString(hash);
