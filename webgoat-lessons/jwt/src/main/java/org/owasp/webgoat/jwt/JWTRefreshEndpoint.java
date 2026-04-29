@@ -58,8 +58,8 @@ import static org.springframework.http.ResponseEntity.ok;
 @AssignmentHints({"jwt-refresh-hint1", "jwt-refresh-hint2", "jwt-refresh-hint3", "jwt-refresh-hint4"})
 public class JWTRefreshEndpoint extends AssignmentEndpoint {
 
-    public static final String PASSWORD = "bm5nhSkxCXZkKRy4";
-    private static final String JWT_PASSWORD = "bm5n3SkxCX4kKRy4";
+    public static final String PASSWORD = System.getenv("APP_USER_PASSWORD");
+    // Example: private static final String JWT_PASSWORD = "long-secure-random-generated-value";
     private static final List<String> validRefreshTokens = new ArrayList<>();
 
     @PostMapping(value = "/JWT/refresh/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

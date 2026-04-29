@@ -3,7 +3,8 @@ var dataFetched = false;
 function selectUser() {
 
     var newEmployeeID = $("#UserSelect").val();
-    document.getElementById("employeeRecord").innerHTML = document.getElementById(newEmployeeID).innerHTML;
+    // Use safe DOM cloning or textContent as appropriate:
+    document.getElementById("employeeRecord").textContent = document.getElementById(newEmployeeID).textContent;
 }
 
 function fetchUserData() {
@@ -25,17 +26,17 @@ function ajaxFunction(userId) {
 
         for (var i = 0; i < result.length; i++) {
             html = html + '<tr id = "' + result[i].UserID + '"</tr>';
-            html = html + '<td>' + result[i].UserID + '</td>';
-            html = html + '<td>' + result[i].FirstName + '</td>';
-            html = html + '<td>' + result[i].LastName + '</td>';
-            html = html + '<td>' + result[i].SSN + '</td>';
-            html = html + '<td>' + result[i].Salary + '</td>';
+            html = html + '<td>' + escapeHtml(result[i].UserID) + '</td>';
+            html = html + '<td>' + escapeHtml(result[i].FirstName) + '</td>';
+            html = html + '<td>' + escapeHtml(result[i].LastName) + '</td>';
+            html = html + '<td>' + escapeHtml(result[i].SSN) + '</td>';
+            html = html + '<td>' + escapeHtml(result[i].Salary) + '</td>'; // escapeHtml should encode special HTML characters
             html = html + '</tr>';
         }
         html = html + '</tr></table>';
 
         var newdiv = document.createElement("div");
-        newdiv.innerHTML = html;
+        newdiv.innerHTML = sanitizeHtml(html); // sanitizeHtml should clean HTML of XSS payloads
         var container = document.getElementById("hiddenEmployeeRecords");
         container.appendChild(newdiv);
     });

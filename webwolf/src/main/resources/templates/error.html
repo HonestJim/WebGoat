@@ -22,15 +22,15 @@
 		<table>
     <tr>
         <td>Date: </td>
-        <td th:text="${timestamp}"/>
+        <td th:text="${#strings.escapeXml(timestamp)}"/>
     </tr>
     <tr>
         <td>Path: </td>
-        <td th:text="${path}"/>
+        <td th:text="${#strings.escapeXml(path)}"/>
     </tr>
     <tr>
         <td>Status: </td>
-        <td th:text="${status}"/>
+        <td th:text="${#strings.escapeXml(status)}"/>
     </tr>
 </table>
 	</div>

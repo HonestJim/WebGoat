@@ -35,6 +35,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.security.SecureRandom;
 
 import static java.util.Optional.ofNullable;
 
@@ -84,7 +85,7 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
                     .recipient(username)
                     .title("Simple e-mail assignment")
                     .time(LocalDateTime.now())
-                    .contents("Thanks for resetting your password, your new password is: " + StringUtils.reverse(username))
+                    .contents("Thanks for resetting your password, your new password is: " + generateSecureRandomPassword())
                     .sender("webgoat@owasp.org")
                     .build();
             try {
@@ -96,5 +97,17 @@ public class SimpleMailAssignment extends AssignmentEndpoint {
         } else {
             return informationMessage(this).feedback("password-reset-simple.email_mismatch").feedbackArgs(username).build();
         }
+    }
+
+    // Generates a cryptographically secure random password
+    private String generateSecureRandomPassword() {
+        final int length = 12;
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 }

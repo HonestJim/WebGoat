@@ -51,10 +51,11 @@ import java.util.Map;
 @AssignmentHints({"password-reset-hint1", "password-reset-hint2", "password-reset-hint3", "password-reset-hint4", "password-reset-hint5", "password-reset-hint6"})
 public class ResetLinkAssignment extends AssignmentEndpoint {
 
-    static final String PASSWORD_TOM_9 = "somethingVeryRandomWhichNoOneWillEverTypeInAsPasswordForTom";
+    // Remove hardcoded password and fetch from configuration or use user input instead.
     static final String TOM_EMAIL = "tom@webgoat-cloud.org";
     static Map<String, String> userToTomResetLink = new HashMap<>();
-    static Map<String, String> usersToTomPassword = Maps.newHashMap();
+    // Store only password hashes, not plain text passwords.
+    static Map<String, String> usersToTomPasswordHash = Maps.newHashMap();
     static List<String> resetLinks = new ArrayList<>();
 
     static final String TEMPLATE = "Hi, you requested a password reset link, please use this "
@@ -71,16 +72,19 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult login(@RequestParam String password, @RequestParam String email) {
         if (TOM_EMAIL.equals(email)) {
-            String passwordTom = usersToTomPassword.getOrDefault(getWebSession().getUserName(), PASSWORD_TOM_9);
-            if (passwordTom.equals(PASSWORD_TOM_9)) {
+            // Password check logic should use hash comparison, not plain text.
+            String passwordTomHash = usersToTomPasswordHash.get(getWebSession().getUserName());
+            if (passwordTomHash == null) {
                 return failed(this).feedback("login_failed").build();
-            } else if (passwordTom.equals(password)) {
+            } else if (org.springframework.security.crypto.bcrypt.BCrypt.checkpw(password, passwordTomHash)) {
                 return success(this).build();
             }
         }
         return failed(this).feedback("login_failed.tom").build();
     }
 
+    // Generate reset link using SecureRandom and use a cryptographically strong identifier.
+    // Validate tokens against DB or a secure store, not just presence in a list.
     @GetMapping("/PasswordReset/reset/reset-password/{link}")
     public ModelAndView resetPassword(@PathVariable(value = "link") String link, Model model) {
     	ModelAndView modelAndView = new ModelAndView();
@@ -118,7 +122,9 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
         	return modelAndView;
         }
         if (checkIfLinkIsFromTom(form.getResetLink())) {
-            usersToTomPassword.put(getWebSession().getUserName(), form.getPassword());
+            // Store hash instead of plain text password
+            String hashed = org.springframework.security.crypto.bcrypt.BCrypt.hashpw(form.getPassword(), org.springframework.security.crypto.bcrypt.BCrypt.gensalt());
+            usersToTomPasswordHash.put(getWebSession().getUserName(), hashed);
         }
         modelAndView.setViewName("success");
         return modelAndView;

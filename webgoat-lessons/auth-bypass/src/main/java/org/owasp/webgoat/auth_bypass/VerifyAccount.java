@@ -59,7 +59,7 @@ public class VerifyAccount extends AssignmentEndpoint {
     public AttackResult completed(@RequestParam String userId, @RequestParam String verifyMethod, HttpServletRequest req) throws ServletException, IOException {
         AccountVerificationHelper verificationHelper = new AccountVerificationHelper();
         Map<String, String> submittedAnswers = parseSecQuestions(req);
-        if (verificationHelper.didUserLikelylCheat((HashMap) submittedAnswers)) {
+        if (submittedAnswers instanceof HashMap && verificationHelper.didUserLikelylCheat((HashMap) submittedAnswers)) {
             return failed(this)
                     .feedback("verify-account.cheated")
                     .output("Yes, you guessed correctly, but see the feedback message")
@@ -67,14 +67,22 @@ public class VerifyAccount extends AssignmentEndpoint {
         }
 
         // else
-        if (verificationHelper.verifyAccount(Integer.valueOf(userId), (HashMap) submittedAnswers)) {
-            userSessionData.setValue("account-verified-id", userId);
-            return success(this)
-                    .feedback("verify-account.success")
-                    .build();
-        } else {
+        try {
+            int safeUserId = Integer.parseInt(userId);
+            if (verificationHelper.verifyAccount(safeUserId, (HashMap) submittedAnswers)) {
+                userSessionData.setValue("account-verified-id", userId);
+                return success(this)
+                        .feedback("verify-account.success")
+                        .build();
+            } else {
+                return failed(this)
+                        .feedback("verify-account.failed")
+                        .build();
+            }
+        } catch (NumberFormatException e) {
             return failed(this)
                     .feedback("verify-account.failed")
+                    .output("Invalid userId format")
                     .build();
         }
 

@@ -46,6 +46,11 @@ public class Users {
     @GetMapping(produces = {"application/json"})
     @ResponseBody
     protected HashMap<Integer, HashMap> getUsers() {
+        // CHECK: Access control - only for admins
+        if (!userSessionData.getCurrentUser().isAdmin()) {
+            throw new RuntimeException("Unauthorized");
+        }
+
 
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT * FROM user_data";

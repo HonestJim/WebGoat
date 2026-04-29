@@ -14,7 +14,7 @@ define(['jquery', 'backbone', 'underscore', 'goatApp/model/ReportCardModel', 'te
 
             render: function () {
                 var t = _.template(this.template);
-                this.$el.html(t(this.model.toJSON()));
+                this.$el.html(t(_.escape(this.model.toJSON()))); // or ensure template uses escaped tags
                 return this;
             }
         });

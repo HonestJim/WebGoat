@@ -38,11 +38,21 @@ var html = '<a href="#" class="list-group-item ACTIVE">' +
     '<div class="clearfix"></div>' +
     '</a>';
 
+function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function getVotings() {
     $("#votesList").empty();
     $.get("JWT/votings", function (result, status) {
         for (var i = 0; i < result.length; i++) {
-            var voteTemplate = html.replace('IMAGE_SMALL', result[i].imageSmall);
+            var voteTemplate = html.replace('IMAGE_SMALL', escapeHtml(result[i].imageSmall));
             if (i === 0) {
                 voteTemplate = voteTemplate.replace('ACTIVE', 'active');
                 voteTemplate = voteTemplate.replace('BUTTON', 'btn-default');
@@ -50,8 +60,8 @@ function getVotings() {
                 voteTemplate = voteTemplate.replace('ACTIVE', '');
                 voteTemplate = voteTemplate.replace('BUTTON', 'btn-primary');
             }
-            voteTemplate = voteTemplate.replace(/TITLE/g, result[i].title);
-            voteTemplate = voteTemplate.replace('INFORMATION', result[i].information || '');
+            voteTemplate = voteTemplate.replace(/TITLE/g, escapeHtml(result[i].title));
+            voteTemplate = voteTemplate.replace('INFORMATION', escapeHtml(result[i].information || ''));
             voteTemplate = voteTemplate.replace('NO_VOTES', result[i].numberOfVotes || '');
             voteTemplate = voteTemplate.replace('AVERAGE', result[i].average || '');
 
@@ -84,4 +94,3 @@ function vote(title) {
         )
     }
 }
-

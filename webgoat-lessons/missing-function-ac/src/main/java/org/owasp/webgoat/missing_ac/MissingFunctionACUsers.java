@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class MissingFunctionACUsers {
         return displayUsers;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(path = {"users","/"}, method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     //@PreAuthorize()

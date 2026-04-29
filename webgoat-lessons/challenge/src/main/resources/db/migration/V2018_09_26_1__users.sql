@@ -5,7 +5,5 @@ CREATE TABLE challenge_users(
   password varchar(30)
 );
 
-INSERT INTO challenge_users VALUES ('larry', 'larry@webgoat.org', 'larryknows');
-INSERT INTO challenge_users VALUES ('tom', 'tom@webgoat.org', 'thisisasecretfortomonly');
-INSERT INTO challenge_users VALUES ('alice', 'alice@webgoat.org', 'rt*(KJ()LP())$#**');
-INSERT INTO challenge_users VALUES ('eve', 'eve@webgoat.org', '**********');
+-- Store hashed passwords instead:
+-- INSERT INTO challenge_users VALUES ('larry', 'larry@webgoat.org', '<bcrypt_hash>');

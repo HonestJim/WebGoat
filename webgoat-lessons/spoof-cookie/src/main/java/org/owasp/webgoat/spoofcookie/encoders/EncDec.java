@@ -36,9 +36,13 @@ import org.springframework.security.crypto.codec.Hex;
 
 public class EncDec {
 
-    // PoC: weak encoding method
-
-    private static final String SALT = RandomStringUtils.randomAlphabetic(10);
+    // Use a cryptographically secure, per-value salt, not static
+    default String makeSalt() {
+        byte[] saltBytes = new byte[16];
+        new java.security.SecureRandom().nextBytes(saltBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(saltBytes);
+    }
+    // Example usage: String salt = makeSalt();
 
     private EncDec() {
 

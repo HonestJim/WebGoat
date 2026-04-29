@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
  * Temp endpoint just for the CTF.
@@ -70,7 +71,8 @@ public class Scoreboard {
     }
 
     private String toLessonTitle(String id) {
-        String titleKey = course.getLessons().stream().filter(l -> l.getId().equals(id)).findFirst().get().getTitle();
+        Optional<Course.Lesson> lessonOpt = course.getLessons().stream().filter(l -> l.getId().equals(id)).findFirst();
+        String titleKey = lessonOpt.isPresent() ? lessonOpt.get().getTitle() : id;
         return pluginMessages.getMessage(titleKey, titleKey);
     }
 }

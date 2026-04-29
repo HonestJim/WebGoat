@@ -113,7 +113,7 @@ function($,
             if(this.hintsToShow.length == 0) {
                // this.hideHints();
             } else {
-                this.$el.find('#lesson-hint-content').html(polyglot.t(this.hintsToShow[curHint]));
+                this.$el.find('#lesson-hint-content').text(polyglot.t(this.hintsToShow[curHint]));
             }
 		},
 

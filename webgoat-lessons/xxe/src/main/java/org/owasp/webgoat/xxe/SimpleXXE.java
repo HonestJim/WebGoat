@@ -73,7 +73,8 @@ public class SimpleXXE extends AssignmentEndpoint {
         	if (null != request.getSession().getAttribute("applySecurity")) {
         		secure = true;
         	}
-            Comment comment = comments.parseXml(commentStr, secure);
+            // Securely parse XML to prevent XXE
+            Comment comment = comments.parseXml(commentStr, true); // Force secure parsing or ensure parser disables XXE
             //System.err.println("Comment " + comment);
             comments.addComment(comment, false);
             if (checkSolution(comment)) {

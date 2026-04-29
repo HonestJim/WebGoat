@@ -43,6 +43,9 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
         xstream.setClassLoader(Contact.class.getClassLoader());
         xstream.alias("contact", ContactImpl.class);
         xstream.ignoreUnknownElements();
+        // Secure XStream configuration:
+        xstream.addPermission(com.thoughtworks.xstream.security.NoTypePermission.NONE);
+        xstream.allowTypes(new Class[] { ContactImpl.class });
         Contact contact = null;
         
         try {

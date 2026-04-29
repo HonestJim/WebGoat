@@ -14,7 +14,7 @@ define(['jquery',
                     var toField = $('#travelTo');
                     var xml = '<?xml version="1.0"?>' +
                         '<searchForm>' +
-                        '  <from>' + fromField.value() + '</from>' +
+                        '  <from>' + _.escape(fromField.value()) + '</from>' +
                         '</searchForm>';
                     return xml;
                 },

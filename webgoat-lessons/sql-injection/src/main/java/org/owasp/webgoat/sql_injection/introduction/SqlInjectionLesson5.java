@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -36,6 +35,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 
 @RestController
@@ -68,8 +68,10 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
-            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-                statement.executeQuery(query);
+            // e.g.
+            try (PreparedStatement stmt = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
+                stmt.setString(1, query); // use parameters
+                ResultSet rs = stmt.executeQuery();
                 if (checkSolution(connection)) {
                     return success(this).build();
                 }

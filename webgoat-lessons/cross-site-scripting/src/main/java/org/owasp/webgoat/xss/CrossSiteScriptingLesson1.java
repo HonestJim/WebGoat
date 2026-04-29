@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -37,6 +36,7 @@ public class CrossSiteScriptingLesson1 extends AssignmentEndpoint {
     @PostMapping("/CrossSiteScripting/attack1")
     @ResponseBody
     public AttackResult completed(@RequestParam String answer_xss_1) {
+        answer_xss_1 = org.owasp.encoder.Encode.forHtml(answer_xss_1); // Output encode before usage
         if (answer_xss_1.toString().toLowerCase().equals("yes")) {
             return success(this).build();
         } else {

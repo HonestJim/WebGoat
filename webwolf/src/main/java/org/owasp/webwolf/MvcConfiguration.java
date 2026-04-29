@@ -48,7 +48,17 @@ public class MvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**").addResourceLocations("file:///" + fileLocatation + "/");
+        // Secure approach: check the value of fileLocatation and sanitize it before use
+        String safeLocation = org.owasp.encoder.Encode.forJava(fileLocatation); 
+        try {
+            if (!safeLocation.contains("..") && new File(safeLocation).getCanonicalPath().startsWith("/expected/base/dir/")) {
+                registry.addResourceHandler("/files/**").addResourceLocations("file:///" + safeLocation + "/");
+            } else {
+                throw new IllegalArgumentException("Invalid file location setting.");
+            }
+        } catch (java.io.IOException e) {
+            throw new IllegalArgumentException("Invalid file location setting.", e);
+        }
     }
 
     @Override

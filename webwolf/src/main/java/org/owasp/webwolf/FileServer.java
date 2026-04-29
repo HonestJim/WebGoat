@@ -70,7 +70,8 @@ public class FileServer {
         WebGoatUser user = (WebGoatUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         File destinationDir = new File(fileLocation, user.getUsername());
         destinationDir.mkdirs();
-        myFile.transferTo(new File(destinationDir, myFile.getOriginalFilename()));
+        String safeFilename = org.apache.commons.io.FilenameUtils.getName(myFile.getOriginalFilename());
+        myFile.transferTo(new File(destinationDir, safeFilename));
         log.debug("File saved to {}", new File(destinationDir, myFile.getOriginalFilename()));
         Files.createFile(new File(destinationDir, user.getUsername() + "_changed").toPath());
 

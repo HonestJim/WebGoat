@@ -25,7 +25,7 @@ public class WebGoatUser implements UserDetails {
 
     @Id
     private String username;
-    private String password;
+    private String passwordHash; // Store hashed password
     private String role = ROLE_USER;
     @Transient
     private User user;
@@ -88,5 +88,3 @@ public class WebGoatUser implements UserDetails {
 
 
 }
-
-

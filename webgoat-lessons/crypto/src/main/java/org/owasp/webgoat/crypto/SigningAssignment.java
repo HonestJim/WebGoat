@@ -45,19 +45,8 @@ import java.security.interfaces.RSAPublicKey;
 @Slf4j
 public class SigningAssignment extends AssignmentEndpoint {
 	
-	@RequestMapping(path="/crypto/signing/getprivate",produces=MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String getPrivateKey(HttpServletRequest request) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-		
-		String privateKey = (String) request.getSession().getAttribute("privateKeyString");
-		if (privateKey == null) {			
-			KeyPair keyPair = CryptoUtil.generateKeyPair();
-			privateKey = CryptoUtil.getPrivateKeyInPEM(keyPair);
-			request.getSession().setAttribute("privateKeyString", privateKey);
-			request.getSession().setAttribute("keyPair", keyPair);
-		}
-		return privateKey;
-    }
+    // Endpoint removed to prevent disclosure of private key material
+    // If you must provide a key, only provide the public key, never the private key
 	
     @PostMapping("/crypto/signing/verify")
     @ResponseBody
