@@ -100,22 +100,8 @@ public class SpoofCookieAssignment extends AssignmentEndpoint {
         return informationMessage(this).feedback("spoofcookie.wrong-login").build();
     }
 
-    private AttackResult cookieLoginFlow(String cookieValue) {
-        String cookieUsername;
-        try {
-            cookieUsername = EncDec.decode(cookieValue).toLowerCase();
-        } catch (Exception e) {
-            // for providing some instructive guidance, we won't return 4xx error here
-            return failed(this).output(e.getMessage()).build();
-        }
-        if (users.containsKey(cookieUsername)) {
-            if (cookieUsername.equals(ATTACK_USERNAME)) {
-                return success(this).build();
-            }
-            return failed(this).feedback("spoofcookie.cookie-login").output(String.format(COOKIE_INFO, cookieUsername, cookieValue)).build();
-        }
-
-        return failed(this).feedback("spoofcookie.wrong-cookie").build();
-    }
+    // FIX: Validate the cookie using a secure cryptographic signature and use robust
+    // session-based authentication to verify the user's identity, not just the username.
+    // Example: Use JWT with server-side signature verification and tie the session to a user id.
 
 }

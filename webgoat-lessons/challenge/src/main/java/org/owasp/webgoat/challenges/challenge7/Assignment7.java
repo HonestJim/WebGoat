@@ -63,6 +63,7 @@ public class Assignment7 extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult sendPasswordResetLink(@RequestParam String email, HttpServletRequest request) throws URISyntaxException {
         if (StringUtils.hasText(email)) {
+            if (!email.matches("^[^@]+@[^@]+\\.[^@]+$")) { throw new IllegalArgumentException("Invalid email"); }
             String username = email.substring(0, email.indexOf("@"));
             if (StringUtils.hasText(username)) {
                 URI uri = new URI(request.getRequestURL().toString());
@@ -84,4 +85,3 @@ public class Assignment7 extends AssignmentEndpoint {
         return new ClassPathResource("challenge7/git.zip");
     }
 }
-

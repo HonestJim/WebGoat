@@ -74,7 +74,7 @@ public class SecurityQuestionAssignment extends AssignmentEndpoint {
         if (answer.isPresent()) {
             triedQuestions.incr(question);
             if (triedQuestions.isComplete()) {
-                return success(this).output("<b>" + answer + "</b>").build();
+                return success(this).output("<b>" + org.owasp.encoder.Encode.forHtml(answer) + "</b>").build();
             }
         }
         return informationMessage(this)

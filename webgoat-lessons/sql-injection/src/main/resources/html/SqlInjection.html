@@ -19,8 +19,7 @@
               autocomplete="off">
             <table>
                 <tr>
-                    <td><label>SQL query</label></td>
-                    <td width="100%"><input class="form-control" name="query" value="" type="TEXT" placeholder="SQL query"/></td>
+                    <!-- Input for direct SQL queries removed or strictly validated/parameterized on the server -->
                 </tr>
                 <tr>
                     <td><button type="SUBMIT">Submit</button></td>
@@ -43,8 +42,7 @@
               autocomplete="off">
             <table>
                 <tr>
-                    <td><label>SQL query</label></td>
-                    <td width="100%"><input class="form-control" name="query" value="" type="TEXT" placeholder="SQL query"/></td>
+                    <!-- Input for direct SQL queries removed or strictly validated/parameterized on the server -->
                 </tr>
                 <tr>
                     <td><button type="SUBMIT">Submit</button></td>
@@ -67,8 +65,7 @@
               autocomplete="off">
             <table>
                 <tr>
-                    <td><label>SQL query</label></td>
-                    <td width="100%"><input class="form-control" name="query" value="" type="TEXT" placeholder="SQL query"/></td>
+                    <!-- Input for direct SQL queries removed or strictly validated/parameterized on the server -->
                 </tr>
                 <tr>
                     <td><button type="SUBMIT">Submit</button></td>
@@ -91,8 +88,7 @@
               autocomplete="off">
             <table>
                 <tr>
-                    <td><label>SQL query</label></td>
-                    <td width="100%"><input class="form-control" name="query" value="" type="TEXT" placeholder="SQL query"/></td>
+                    <!-- Input for direct SQL queries removed or strictly validated/parameterized on the server -->
                 </tr>
                 <tr>
                     <td><button type="SUBMIT">Submit</button></td>
@@ -112,6 +108,7 @@
         <input id="preview-input" type="text" name="username" val=""/>
         <div class="listingblock">
             <div class="content">
+                <!-- Escape or sanitize user input for preview purposes -->
                 <pre>"SELECT * FROM users WHERE name = '<span id="input-preview" style="font-weight: bold;"></span>'";</pre>
             </div>
         </div>

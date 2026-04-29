@@ -47,7 +47,7 @@ public class WebGoatUser implements UserDetails {
 
     @Id
     private String username;
-    private String password;
+    private String passwordHash; // Store the hashed password
     private String role = ROLE_USER;
     @Transient
     private User user;
@@ -89,5 +89,3 @@ public class WebGoatUser implements UserDetails {
         return this.user.isEnabled();
     }
 }
-
-

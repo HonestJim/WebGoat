@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -46,11 +45,10 @@ public class SqlOnlyInputValidationOnKeywords extends AssignmentEndpoint {
     @PostMapping("/SqlOnlyInputValidationOnKeywords/attack")
     @ResponseBody
     public AttackResult attack(@RequestParam("userid_sql_only_input_validation_on_keywords") String userId) {
-        userId = userId.toUpperCase().replace("FROM", "").replace("SELECT", "");
-        if (userId.contains(" ")) {
-            return failed(this).feedback("SqlOnlyInputValidationOnKeywords-failed").build();
-        }
-        AttackResult attackResult = lesson6a.injectableQuery(userId);
+        // Use prepared statements for SQL, e.g.:
+        // PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE userid = ?");
+        // ps.setString(1, userId);
+        AttackResult attackResult = lesson6a.injectableQueryWithPreparedStatement(userId);
         return new AttackResult(attackResult.isLessonCompleted(), attackResult.getFeedback(), attackResult.getOutput(), getClass().getSimpleName(), true);
     }
 }

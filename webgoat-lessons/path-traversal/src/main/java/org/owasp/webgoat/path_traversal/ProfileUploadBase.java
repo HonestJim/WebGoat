@@ -42,6 +42,9 @@ public class ProfileUploadBase extends AssignmentEndpoint {
 
         try {
             uploadDirectory.mkdirs();
+            if (fullName.contains("..") || fullName.contains("/")) {
+                return failed(this).feedback("invalid-filename").build();
+            }
             var uploadedFile = new File(uploadDirectory, fullName);
             uploadedFile.createNewFile();
             FileCopyUtils.copy(file.getBytes(), uploadedFile);

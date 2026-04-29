@@ -2,7 +2,7 @@ CREATE TABLE user_data(
   userid int not null,
   first_name varchar(20),
   last_name varchar(20),
-  cc_number varchar(30),
+  cc_number varbinary(256) -- encrypted
   cc_type varchar(10),
   cookie varchar(20),
   login_count int

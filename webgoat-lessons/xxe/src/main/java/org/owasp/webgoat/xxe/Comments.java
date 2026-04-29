@@ -89,17 +89,12 @@ public class Comments {
      * XmlMapper bean defined above will be used automatically and the Comment class can be directly used in the
      * controller method (instead of a String)
      */
-    protected Comment parseXml(String xml, boolean secure) throws JAXBException, XMLStreamException {
+    protected Comment parseXml(String xml) throws JAXBException, XMLStreamException {
         var jc = JAXBContext.newInstance(Comment.class);
         var xif = XMLInputFactory.newInstance();
-        
-        if (secure) {
-        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-        	xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");  // compliant
-        }
-        
+        xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Always secure
+        xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
         var xsr = xif.createXMLStreamReader(new StringReader(xml));
-
         var unmarshaller = jc.createUnmarshaller();
         return (Comment) unmarshaller.unmarshal(xsr);
     }

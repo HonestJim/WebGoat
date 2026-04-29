@@ -6,7 +6,7 @@ CREATE TABLE user_data_tan (
  cc_type varchar(10),
  cookie varchar(20),
  login_count int,
- password varchar(20)
+ password_hash varchar(100)
 );
 
 INSERT INTO user_data_tan VALUES (101,'Joe','Snow','987654321','VISA',' ',0, 'banana');

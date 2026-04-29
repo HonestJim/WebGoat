@@ -8,6 +8,15 @@ Basic steps for implementing a quiz:
 4. CSS:  include the css/quiz.css file for styling.
 **/
 
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 $(function () {
     var json = "";
     var client = new XMLHttpRequest();
@@ -22,7 +31,7 @@ $(function () {
             let html = "";
             jQuery.each(questionsObj, function(i, obj) {
                 jQuery.each(obj, function(j, quest) {
-                  html += "<div id='question_" + j + "' class='quiz_question' name='question'><p>" + (j+1) + ".&nbsp;" + quest.text + "</p>";
+                  html += "<div id='question_" + j + "' class='quiz_question' name='question'><p>" + (j+1) + ".&nbsp;" + escapeHtml(quest.text) + "</p>"; // escapeHtml should escape dangerous chars
                   html += "<fieldset>";
                   jQuery.each(quest.solutions, function(k, solution) {
                     solution = "Solution " + k + ": " + solution;
@@ -31,7 +40,7 @@ $(function () {
                   html += "</fieldset></div>";
                 });
             });
-            document.getElementById("q_container").innerHTML = html;
+            document.getElementById("q_container").innerHTML = html; // 'html' should only contain escaped content
         }
     }
     client.send();

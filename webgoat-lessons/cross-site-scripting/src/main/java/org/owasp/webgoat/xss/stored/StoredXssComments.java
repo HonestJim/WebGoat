@@ -88,7 +88,8 @@ public class StoredXssComments extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult createNewComment(@RequestBody String commentStr) {
         Comment comment = parseJson(commentStr);
-
+        // Escape comment text to prevent XSS
+        comment.setText(org.apache.commons.text.StringEscapeUtils.escapeHtml4(comment.getText()));
         List<Comment> comments = userComments.getOrDefault(webSession.getUserName(), new ArrayList<>());
         comment.setDateTime(DateTime.now().toString(fmt));
         comment.setUser(webSession.getUserName());

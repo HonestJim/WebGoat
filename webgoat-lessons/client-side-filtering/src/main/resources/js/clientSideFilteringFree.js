@@ -38,7 +38,8 @@ $(document).ready(function () {
     })
     $(".checkoutCode").on("blur", function () {
         var checkoutCode = $(".checkoutCode").val();
-        $.get("clientSideFiltering/challenge-store/coupons/" + checkoutCode, function (result, status) {
+        // NOTE: Always validate coupon codes server-side!
+        $.get("clientSideFiltering/challenge-store/coupons/" + encodeURIComponent(checkoutCode), function (result, status) {
             var discount = result.discount;
             if (discount > 0) {
                 $('#discount').text(discount);

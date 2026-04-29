@@ -61,7 +61,9 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        userService.addUser(userForm.getUsername(), userForm.getPassword());
+        String hashedPassword = hashFunction(userForm.getPassword());
+        userService.addUser(userForm.getUsername(), hashedPassword);
+        // Implement secure login logic and avoid direct interaction with raw password values as possible.
         request.login(userForm.getUsername(), userForm.getPassword());
 
         return "redirect:/WebWolf/home";

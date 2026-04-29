@@ -58,9 +58,9 @@
         </thead>
         <tbody>
         <tr th:each="f : ${files}">
-            <td th:text="${f.name}">filename</td>
+            <td th:text="${#strings.htmlEscape(f.name)}">filename</td>
             <td th:text="${f.size}">size</td>
-            <td><a th:id="fileLink" th:href="@{'/' + ${f.link}}">link</a>
+            <td><a th:id="fileLink" th:href="@{'/' + ${#strings.urlEncode(f.link)}}">link</a>
                     <span class="fa fa-files-o" title="Click to copy to clipboard"></span>
             </td>
         </tr>

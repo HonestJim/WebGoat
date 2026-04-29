@@ -37,7 +37,7 @@
         <tbody>
         <% _(lessonStatistics).each(function(lesson) { %>
         <%= lesson.solved ? '<tr class="success">' : '<tr>' %>
-            <td><%= lesson.name %></td>
+            <td><%- _.escape(lesson.name) %></td>
             <td><%= lesson.solved %></td>
             <td><%= lesson.numberOfAttempts %></td>
         </tr>

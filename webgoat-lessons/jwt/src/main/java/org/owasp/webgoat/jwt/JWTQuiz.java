@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.Arrays;
 
 @RestController
 public class JWTQuiz extends AssignmentEndpoint {
@@ -20,6 +20,9 @@ public class JWTQuiz extends AssignmentEndpoint {
     public AttackResult completed(@RequestParam String[] question_0_solution, @RequestParam String[] question_1_solution) {
         int correctAnswers = 0;
 
+        if (question_0_solution.length == 0 || question_1_solution.length == 0) {
+            return failed(this).feedback("Invalid input").build();
+        }
         String[] givenAnswers = {question_0_solution[0], question_1_solution[0]};
 
         for (int i = 0; i < solutions.length; i++) {
@@ -43,7 +46,8 @@ public class JWTQuiz extends AssignmentEndpoint {
     @GetMapping("/JWT/quiz")
     @ResponseBody
     public boolean[] getResults() {
-        return this.guesses;
+        // Only return this if exposing guesses is safe
+        return Arrays.copyOf(this.guesses, this.guesses.length);
     }
 
 }

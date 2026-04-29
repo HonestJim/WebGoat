@@ -83,7 +83,10 @@ public class ProfileUploadRetrieval extends AssignmentEndpoint {
         }
         try {
             var id = request.getParameter("id");
-            var catPicture = new File(catPicturesDirectory, (id == null ? RandomUtils.nextInt(1, 11) : id) + ".jpg");
+            if (id == null || !id.matches("^(?:[1-9]|10)$")) { // Only allow numbers 1-10
+                id = String.valueOf(RandomUtils.nextInt(1, 11));
+            }
+            var catPicture = new File(catPicturesDirectory, id + ".jpg");
 
             if (catPicture.getName().toLowerCase().contains("path-traversal-secret.jpg")) {
                 return ResponseEntity.ok()

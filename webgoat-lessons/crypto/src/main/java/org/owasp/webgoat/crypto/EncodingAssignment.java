@@ -39,6 +39,7 @@ import java.util.Random;
 public class EncodingAssignment extends AssignmentEndpoint {
 
 	public static String getBasicAuth(String username, String password) {
+        // Ensure only use Basic Auth over HTTPS, or use stronger authentication mechanisms
     	return Base64.getEncoder().encodeToString(username.concat(":").concat(password).getBytes());
     }
 	

@@ -71,7 +71,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
             	if (null != request.getSession().getAttribute("applySecurity")) {
             		secure = true;
             	}
-                Comment comment = comments.parseXml(commentStr, secure);
+                Comment comment = comments.parseXml(commentStr, true); // always parse securely
                 comments.addComment(comment, false);
                 if (checkSolution(comment)) {
                     attackResult = success(this).build();

@@ -47,7 +47,7 @@ public class CSRFGetFlag {
     private PluginMessages pluginMessages;
 
     @RequestMapping(path = "/csrf/basic-get-flag", produces = {"application/json"}, method = RequestMethod.POST)
-    @ResponseBody
+    // TODO: Implement validation of CSRF token from request parameters or headers
     public Map<String, Object> invoke(HttpServletRequest req) {
 
         Map<String, Object> response = new HashMap<>();

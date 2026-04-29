@@ -31,7 +31,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class JWTToken {
 
     private String encoded = "";
-    private String secretKey;
+    private String secretKey; // TODO: Never set this from user input. Validate for length and randomness.
     private String header;
     private boolean validHeader;
     private boolean validPayload;
@@ -84,15 +84,9 @@ public class JWTToken {
         }
 
         //Only sign when valid header and payload
-        if (!headers.isEmpty() && !payload.isEmpty() && hasText(secretKey)) {
+        if (!headers.isEmpty() && !payload.isEmpty() && hasText(secretKey) && isStrongSecret(secretKey)) {
             jws.setDoKeyValidation(false);
             jws.setKey(new HmacKey(secretKey.getBytes(UTF_8)));
-            try {
-                builder.encoded(jws.getCompactSerialization());
-                builder.signatureValid(true);
-            } catch (JoseException e) {
-                //Do nothing
-            }
         }
         return builder.build();
     }
@@ -132,6 +126,20 @@ public class JWTToken {
             }
         }
         return false;
+    }
+
+    // Helper method to check secret strength
+    private static boolean isStrongSecret(String secret) {
+        // Example: at least 32 chars, contains upper, lower, digit, and special char
+        if (secret == null || secret.length() < 32) return false;
+        boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+        for (char c : secret.toCharArray()) {
+            if (Character.isUpperCase(c)) hasUpper = true;
+            else if (Character.isLowerCase(c)) hasLower = true;
+            else if (Character.isDigit(c)) hasDigit = true;
+            else hasSpecial = true;
+        }
+        return hasUpper && hasLower && hasDigit && hasSpecial;
     }
 
 }

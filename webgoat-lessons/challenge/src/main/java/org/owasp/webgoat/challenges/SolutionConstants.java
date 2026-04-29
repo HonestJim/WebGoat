@@ -31,7 +31,7 @@ package org.owasp.webgoat.challenges;
 public interface SolutionConstants {
 
     //TODO should be random generated when starting the server
-    String PASSWORD = "!!webgoat_admin_1234!!";
-    String PASSWORD_TOM = "thisisasecretfortomonly";
+    String PASSWORD = System.getenv("WEBGOAT_PASSWORD");
+    String PASSWORD_TOM = System.getenv("WEBGOAT_PASSWORD_TOM");
     String ADMIN_PASSWORD_LINK = "375afe1104f4a487a73823c50a9292a2";
 }

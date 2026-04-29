@@ -4,7 +4,7 @@ CREATE TABLE sql_challenge_users(
   password varchar(30)
 );
 
-INSERT INTO sql_challenge_users VALUES ('larry', 'larry@webgoat.org', 'larryknows');
-INSERT INTO sql_challenge_users VALUES ('tom', 'tom@webgoat.org', 'thisisasecretfortomonly');
-INSERT INTO sql_challenge_users VALUES ('alice', 'alice@webgoat.org', 'rt*(KJ()LP())$#**');
-INSERT INTO sql_challenge_users VALUES ('eve', 'eve@webgoat.org', '**********');
+INSERT INTO sql_challenge_users VALUES ('larry', 'larry@webgoat.org', '<hashed-password-1>');
+INSERT INTO sql_challenge_users VALUES ('tom', 'tom@webgoat.org', '<hashed-password-2>');
+INSERT INTO sql_challenge_users VALUES ('alice', 'alice@webgoat.org', '<hashed-password-3>');
+INSERT INTO sql_challenge_users VALUES ('eve', 'eve@webgoat.org', '<hashed-password-4>');

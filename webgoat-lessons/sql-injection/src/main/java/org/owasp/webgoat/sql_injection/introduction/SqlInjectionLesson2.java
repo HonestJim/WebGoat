@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -58,8 +57,9 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String query) {
         try (var connection = dataSource.getConnection()) {
-            Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-            ResultSet results = statement.executeQuery(query);
+            PreparedStatement ps = connection.prepareStatement(query);
+            // Use parameter substitution if possible
+            ResultSet results = ps.executeQuery();
             StringBuffer output = new StringBuffer();
 
             results.first();

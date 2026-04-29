@@ -37,8 +37,17 @@ public class HtmlTamperingTask extends AssignmentEndpoint {
     @PostMapping("/HtmlTampering/task")
     @ResponseBody
     public AttackResult completed(@RequestParam String QTY, @RequestParam String Total) {
-        if (Float.parseFloat(QTY) * 2999.99 > Float.parseFloat(Total) + 1) {
-            return success(this).feedback("html-tampering.tamper.success").build();
+        try {
+            int qty = Integer.parseInt(QTY);
+            float total = Float.parseFloat(Total);
+            if (qty < 0 || qty > 10) {
+                return failed(this).feedback("Invalid quantity range").build();
+            }
+            if (qty * 2999.99 > total + 1) {
+                return success(this).feedback("html-tampering.tamper.success").build();
+            }
+        } catch (NumberFormatException e) {
+            return failed(this).feedback("Invalid input format").build();
         }
         return failed(this).feedback("html-tampering.tamper.failure").build();
     }

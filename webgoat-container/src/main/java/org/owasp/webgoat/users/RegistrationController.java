@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ public class RegistrationController {
     private UserValidator userValidator;
     private UserService userService;
     private AuthenticationManager authenticationManager;
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String showForm(UserForm userForm) {
@@ -39,7 +41,8 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
-        userService.addUser(userForm.getUsername(), userForm.getPassword());
+        String hashedPassword = passwordEncoder.encode(userForm.getPassword());
+        userService.addUser(userForm.getUsername(), hashedPassword);
         request.login(userForm.getUsername(), userForm.getPassword());
 
         return "redirect:/attack";

@@ -1,7 +1,7 @@
 CREATE TABLE user_system_data(
   userid int not null primary key,
   user_name varchar(12),
-  password varchar(10),
+  password_hash varchar(60),
   cookie varchar(30)
 );
 

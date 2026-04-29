@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -36,6 +35,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
@@ -59,17 +59,20 @@ public class SqlInjectionLesson4 extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
-            try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
-                statement.executeUpdate(query);
+            // Use PreparedStatement instead of Statement when executing user-provided SQL
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.executeUpdate();
                 connection.commit();
-                ResultSet results = statement.executeQuery("SELECT phone from employees;");
-                StringBuffer output = new StringBuffer();
-                // user completes lesson if column phone exists
-                if (results.first()) {
-                    output.append("<span class='feedback-positive'>" + query + "</span>");
-                    return success(this).output(output.toString()).build();
-                } else {
-                    return failed(this).output(output.toString()).build();
+                try (Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY)) {
+                    ResultSet results = statement.executeQuery("SELECT phone from employees;");
+                    StringBuffer output = new StringBuffer();
+                    // user completes lesson if column phone exists
+                    if (results.first()) {
+                        output.append("<span class='feedback-positive'>" + query + "</span>");
+                        return success(this).output(output.toString()).build();
+                    } else {
+                        return failed(this).output(output.toString()).build();
+                    }
                 }
             } catch (SQLException sqle) {
                 return failed(this).output(sqle.getMessage()).build();

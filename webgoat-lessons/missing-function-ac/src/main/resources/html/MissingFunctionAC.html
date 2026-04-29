@@ -27,13 +27,16 @@
                                 <li>Compose Message</li>
                             </ul>
                         </div>
-                    <h3 class="hidden-menu-item menu-header">Admin</h3>
-                        <div class="menu-section hidden-menu-item">
+                    <!-- Only render the following block for admin users -->
+                    <th:block th:if="${isAdmin}">
+                        <h3 class="menu-header">Admin</h3>
+                        <div class="menu-section">
                             <ul>
                                 <li><a href="/users">Users</a></li>
                                 <li><a href="/config">Config</a></li>
                             </ul>
                         </div>
+                    </th:block>
                 </div>
             </div>
 

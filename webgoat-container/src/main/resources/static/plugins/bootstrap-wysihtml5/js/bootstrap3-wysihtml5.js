@@ -247,6 +247,7 @@
 
             var insertImage = function() {
                 var url = urlInput.val();
+                if (!/^https?:\/\//.test(url)) { alert('Invalid image URL'); return; }
                 urlInput.val(initialValue);
                 self.editor.currentView.element.focus();
                 if (caretBookmark) {
@@ -302,6 +303,7 @@
 
             var insertLink = function() {
                 var url = urlInput.val();
+                if (!/^https?:\/\//.test(url) && !/^mailto:/.test(url)) { alert('Only http, https, and mailto links allowed'); return; }
                 urlInput.val(initialValue);
                 self.editor.currentView.element.focus();
                 if (caretBookmark) {

@@ -16,7 +16,11 @@ editor2.setValue(
     "\n" +
     "public class AntiSamyController {\n" +
     "    public void saveNewComment(int threadID, int userID, String newComment){\n" +
-    "        MyCommentDAO.addComment(threadID, userID, newComment);\n" +
+    "        Policy policy = Policy.getInstance(\"antisamy-slashdot.xml\");\n" +
+    "        AntiSamy as = new AntiSamy();\n" +
+    "        CleanResults cr = as.scan(newComment, policy);\n" +
+    "        String safeComment = cr.getCleanHTML();\n" +
+    "        MyCommentDAO.addComment(threadID, userID, safeComment);\n" +
     "    }\n" +
     "}"
 );

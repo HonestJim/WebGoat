@@ -60,7 +60,14 @@ public class ProfileZipSlip extends ProfileUploadBase {
             Enumeration<? extends ZipEntry> entries = zip.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry e = entries.nextElement();
-                File f = new File(uploadDirectory, e.getName());
+                String entryName = e.getName();
+                File f = new File(uploadDirectory, entryName);
+                String canonicalDestDirPath = uploadDirectory.getCanonicalPath();
+                String canonicalDestFilePath = f.getCanonicalPath();
+                if (!canonicalDestFilePath.startsWith(canonicalDestDirPath + File.separator)) {
+                    // Skip files that try to write outside the intended directory
+                    continue;
+                }
                 InputStream is = zip.getInputStream(e);
                 Files.copy(is, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }

@@ -98,7 +98,7 @@ define(['jquery',
 			this.$el.html(menuUl);
 			//if we need to keep a menu open
 			if (this.openMenu) {
-				$('#'+this.openMenu).show();
+				this.$el.find('[id="' + $.escapeSelector(this.openMenu) + '"]').show();
 			}
 		},
 

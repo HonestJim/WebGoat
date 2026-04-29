@@ -47,7 +47,8 @@ public class MissingFunctionACYourHash extends AssignmentEndpoint {
         String currentUser = getWebSession().getUserName();
         WebGoatUser user = userService.loadUserByUsername(currentUser);
         DisplayUser displayUser = new DisplayUser(user);
-        if (userHash.equals(displayUser.getUserHash())) {
+        // Perform access control based on authenticated user context, not a client-provided hash
+        if (isUserEntitled(currentUser)) {
             return success(this).feedback("access-control.hash.success").build();
         } else {
             return failed(this).feedback("access-control.hash.close").build();

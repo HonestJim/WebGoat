@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Base64;
+import java.io.ObjectInputFilter;
 
 public class SerializationHelper {
 
@@ -16,8 +17,11 @@ public class SerializationHelper {
     public static Object fromString(String s) throws IOException,
             ClassNotFoundException {
         byte[] data = Base64.getDecoder().decode(s);
-        ObjectInputStream ois = new ObjectInputStream(
-                new ByteArrayInputStream(data));
+        // Use custom ObjectInputFilter to restrict allowed classes or
+        // throw an exception if the input is not trusted.
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+        ObjectInputFilter filter = ObjectInputFilter.Config.createFilter("<YOUR_SAFE_CLASSES>");
+        ois.setObjectInputFilter(filter);
         Object o = ois.readObject();
         ois.close();
         return o;

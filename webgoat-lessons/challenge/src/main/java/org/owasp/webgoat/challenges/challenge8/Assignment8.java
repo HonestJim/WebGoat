@@ -39,9 +39,9 @@ public class Assignment8 extends AssignmentEndpoint {
     public ResponseEntity<?> vote(@PathVariable(value = "stars") int nrOfStars, HttpServletRequest request) {
         //Simple implementation of VERB Based Authentication
         String msg = "";
-        if (request.getMethod().equals("GET")) {
+        if (request.getSession(false) == null || request.getSession(false).getAttribute("user") == null) {
             var json = Map.of("error", true, "message", "Sorry but you need to login first in order to vote");
-            return ResponseEntity.status(200).body(json);
+            return ResponseEntity.status(401).body(json);
         }
         Integer allVotesForStar = votes.getOrDefault(nrOfStars, 0);
         votes.put(nrOfStars, allVotesForStar + 1);
@@ -66,4 +66,3 @@ public class Assignment8 extends AssignmentEndpoint {
         throw new IllegalStateException("Should never be called, challenge specific method");
     }
 }
-

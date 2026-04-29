@@ -43,7 +43,12 @@ public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String editor2) {
 
-        String editor = editor2.replaceAll("\\<.*?>", "");
+        // Consider using a proper HTML sanitization library like AntiSamy:
+        AntiSamy as = new AntiSamy();
+        Policy policy = Policy.getInstance("antisamy-slashdot.xml");
+        CleanResults cr = as.scan(editor2, policy);
+        String editor = cr.getCleanHTML();
+
         log.debug(editor);
 
         if ((editor.contains("Policy.getInstance(\"antisamy-slashdot.xml\"") || editor.contains(".scan(newComment, \"antisamy-slashdot.xml\"") || editor.contains(".scan(newComment, new File(\"antisamy-slashdot.xml\")")) &&

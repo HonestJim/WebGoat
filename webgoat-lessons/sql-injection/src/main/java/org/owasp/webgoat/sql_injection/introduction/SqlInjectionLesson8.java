@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -57,13 +56,14 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
     protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
         StringBuffer output = new StringBuffer();
-        String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
-
+        String query = "SELECT * FROM employees WHERE last_name = ? AND auth_tan = ?";
         try (Connection connection = dataSource.getConnection()) {
             try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                PreparedStatement preparedStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, auth_tan);
                 log(connection, query);
-                ResultSet results = statement.executeQuery(query);
+                ResultSet results = preparedStatement.executeQuery();
 
                 if (results.getStatement() != null) {
                     if (results.first()) {
@@ -131,11 +131,12 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = sdf.format(cal.getTime());
 
-        String logQuery = "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
-
+        String logQuery = "INSERT INTO access_log (time, action) VALUES (?, ?)";
         try {
-            Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
-            statement.executeUpdate(logQuery);
+            PreparedStatement ps = connection.prepareStatement(logQuery);
+            ps.setString(1, time);
+            ps.setString(2, action);
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

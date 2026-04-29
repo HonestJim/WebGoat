@@ -18,7 +18,7 @@
           target="_blank"
           successCallback=""
           action="/WebGoat/csrf/basic-get-flag">
-        <input name="csrf" type="hidden" value="false"/>
+        <input name="csrf" type="hidden" value="${_csrf.token}"/>
         <input type="submit" name="submit"/>
 
     </form>
@@ -38,6 +38,7 @@
               action="/WebGoat/csrf/confirm-flag-1">
 
             Confirm Flag Value:
+            <input type="hidden" name="csrf" value="${_csrf.token}"/>
             <input type="text" length="6" name="confirmFlagVal" value=""/>
 
             <input name="submit" value="Submit" type="submit"/>
@@ -97,6 +98,7 @@
                                 <input class="form-control" id="reviewText" name="reviewText" placeholder="Add a Review"
                                        type="text"/>
                                 <input class="form-control" id="reviewStars" name="stars" type="text"/>
+                                <input type="hidden" name="csrf" value="${_csrf.token}"/>
                                 <input type="hidden" name="validateReq" value="2aa14227b9a13d0bede0388a7fba9aa9"/>
                                 <input type="submit" name="submit" value="Submit review"/>
                             </form>
@@ -148,6 +150,7 @@
                                   prepareData="feedback"
                                   action="/WebGoat/csrf/feedback/message"
                                   contentType="application/json">
+                                <input type="hidden" name="csrf" value="${_csrf.token}"/>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -215,6 +218,7 @@
               action="/WebGoat/csrf/feedback">
 
             Confirm Flag Value:
+            <input type="hidden" name="csrf" value="${_csrf.token}"/>
             <input type="text" length="6" name="confirmFlagVal" value=""/>
 
             <input name="submit" value="Submit" type="submit"/>
@@ -240,6 +244,7 @@
 
             Press the button below when your are logged in as the other user<br/>
 
+            <input type="hidden" name="csrf" value="${_csrf.token}"/>
             <input name="submit" value="Solved!" type="submit"/>
 
         </form>

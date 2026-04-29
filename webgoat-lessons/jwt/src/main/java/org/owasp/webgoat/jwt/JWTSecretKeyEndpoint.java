@@ -51,8 +51,12 @@ import java.util.Random;
 @AssignmentHints({"jwt-secret-hint1", "jwt-secret-hint2", "jwt-secret-hint3"})
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
-    public static final String[] SECRETS = {"victory", "business", "available", "shipping", "washington"};
-    public static final String JWT_SECRET = TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
+    public static final String JWT_SECRET;
+    static {
+        byte[] keyBytes = new byte[32];
+        new java.security.SecureRandom().nextBytes(keyBytes);
+        JWT_SECRET = java.util.Base64.getEncoder().encodeToString(keyBytes);
+    }
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
 

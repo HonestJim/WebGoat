@@ -3,5 +3,5 @@ CREATE TABLE jwt_keys(
   key varchar(20)
 );
 
-INSERT INTO jwt_keys VALUES ('webgoat_key', 'qwertyqwerty1234');
-INSERT INTO jwt_keys VALUES ('webwolf_key', 'doesnotreallymatter');
+-- Securely inject key from environment/secrets store instead
+-- Securely inject key from environment/secrets store instead

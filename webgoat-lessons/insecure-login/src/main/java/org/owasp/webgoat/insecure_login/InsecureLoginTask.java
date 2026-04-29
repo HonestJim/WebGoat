@@ -35,9 +35,10 @@ public class InsecureLoginTask extends AssignmentEndpoint {
     @PostMapping("/InsecureLogin/task")
     @ResponseBody
     public AttackResult completed(@RequestParam String username, @RequestParam String password) {
-    	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
-    		return success(this).build();
-    	}
+        // Authenticate username and password against secure user storage (e.g., database)
+        // Example:
+        // User user = userRepository.findByUsername(username);
+        // if (user != null && checkPassword(password, user.getPasswordHash())) {
         return failed(this).build();
     }
 }

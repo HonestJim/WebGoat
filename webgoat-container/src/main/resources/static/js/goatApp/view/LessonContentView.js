@@ -44,7 +44,7 @@ define(['jquery',
 
             /* initial rendering */
             render: function () {
-                this.$el.find('.lesson-content').html(this.model.get('content'));
+                this.$el.find('.lesson-content').html(DOMPurify.sanitize(this.model.get('content')));
                 this.$el.find('.attack-feedback').hide();
                 this.$el.find('.attack-output').hide();
                 this.makeFormsAjax();
@@ -175,14 +175,14 @@ define(['jquery',
 
             renderFeedback: function (feedback) {
                 var s = this.removeSlashesFromJSON(feedback);
-                this.$curFeedback.html(polyglot.t(s) || "");
+                this.$curFeedback.html(DOMPurify.sanitize(polyglot.t(s) || ""));
                 this.$curFeedback.show(400)
 
             },
 
             renderOutput: function (output) {
                 var s = this.removeSlashesFromJSON(output);
-                this.$curOutput.html(polyglot.t(s) || "");
+                this.$curOutput.html(DOMPurify.sanitize(polyglot.t(s) || ""));
                 this.$curOutput.show(400)
             },
 
