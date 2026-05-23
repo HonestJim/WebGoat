@@ -97,8 +97,8 @@ define(['jquery',
 			}
 			this.$el.html(menuUl);
 			//if we need to keep a menu open
-			if (this.openMenu) {
-				$('#'+this.openMenu).show();
+			if (/^[a-zA-Z0-9_-]+$/.test(this.openMenu)) {
+			    $('#'+this.openMenu).show();
 			}
 		},
 
@@ -108,11 +108,13 @@ define(['jquery',
 		},
 
 		onLessonClick: function (elementId) {
-			if (this.curLessonLinkId) {
-				$('#'+this.curLessonLinkId).removeClass('selected').parent().removeClass('selected');
+			if (/^[a-zA-Z0-9_-]+$/.test(this.curLessonLinkId)) {
+			    $('#'+this.curLessonLinkId).removeClass('selected').parent().removeClass('selected');
 			}
 			//update
-			$('#'+elementId).addClass('selected').parent().addClass('selected');
+			if (/^[a-zA-Z0-9_-]+$/.test(elementId)) {
+			    $('#'+elementId).addClass('selected').parent().addClass('selected');
+			}
 			this.curLessonLinkId = elementId;
 		},
 
@@ -125,11 +127,17 @@ define(['jquery',
 
 		accordionMenu: function(id) {
 	        if (this.openMenu !== id) {
-	        	this.$el.find('#' + this.openMenu).slideUp(200);
-	        	this.$el.find('#' + id).slideDown(300);
+	        	if (/^[a-zA-Z0-9_-]+$/.test(this.openMenu)) {
+	        	    this.$el.find('#' + this.openMenu).slideUp(200);
+	        	}
+	        	if (/^[a-zA-Z0-9_-]+$/.test(id)) {
+	        	    this.$el.find('#' + id).slideDown(300);
+	        	}
 	        	this.openMenu = id;
 	        } else { //it's open
-	            this.$el.find('#' + id).slideUp(300).attr('isOpen', 0);
+	            if (/^[a-zA-Z0-9_-]+$/.test(id)) {
+	                this.$el.find('#' + id).slideUp(300).attr('isOpen', 0);
+	            }
 	            this.openMenu = null;
 	            return;
 	        }

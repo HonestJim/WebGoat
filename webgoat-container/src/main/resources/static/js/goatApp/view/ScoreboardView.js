@@ -21,7 +21,7 @@ function($,
 		render: function() {
 			//this.$el.html('test');
 			var t = _.template(this.template);
-            this.$el.html(t({'rankings':this.collection.toJSON()}));
+            this.$el.html(t({'rankings':sanitize(this.collection.toJSON())})); // sanitize or escape before rendering
             setTimeout(this.pollData.bind(this), 5000);
 		},
 

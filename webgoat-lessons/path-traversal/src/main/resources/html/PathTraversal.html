@@ -22,7 +22,7 @@
                   informationalCallback="profileUploadCallback"
                   prepareData="profileUpload"
                   enctype="multipart/form-data"
-                  action="/WebGoat/PathTraversal/profile-upload">
+                  action="/WebGoat/PathTraversal/profile-upload" (Backend: sanitize user filenames, disallow ../ patterns)>
                 <div class="preview text-center">
                     <img class="preview-img" th:src="@{/images/account.png}" alt="Preview Image" width="200"
                          height="200" id="preview"/>
@@ -227,7 +227,7 @@
 
                   prepareData="profileZipSlip"
                   enctype="multipart/form-data"
-                  action="/WebGoat/PathTraversal/zip-slip">
+                  action="/WebGoat/PathTraversal/zip-slip" (Backend: validate ZIP entry filenames and strip ../)>
                 <div class="preview text-center">
                     <img  th:src="@{|~/WebGoat/PathTraversal/zip-slip/profile-image/${#authentication.name}|}" width="1"
                          height="1" />

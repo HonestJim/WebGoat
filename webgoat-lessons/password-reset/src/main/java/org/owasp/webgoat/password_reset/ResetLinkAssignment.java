@@ -106,7 +106,7 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     @PostMapping("/PasswordReset/reset/change-password")
     public ModelAndView changePassword(@ModelAttribute("form") PasswordChangeForm form, BindingResult bindingResult) {
     	ModelAndView modelAndView = new ModelAndView();
-        if (!org.springframework.util.StringUtils.hasText(form.getPassword())) {
+        if (!org.springframework.util.StringUtils.hasText(form.getPassword()) || !isComplex(form.getPassword())) {
             bindingResult.rejectValue("password", "not.empty");
         }
         if (bindingResult.hasErrors()) {
@@ -127,5 +127,20 @@ public class ResetLinkAssignment extends AssignmentEndpoint {
     private boolean checkIfLinkIsFromTom(String resetLinkFromForm) {
         String resetLink = userToTomResetLink.getOrDefault(getWebSession().getUserName(), "unknown");
         return resetLink.equals(resetLinkFromForm);
+    }
+
+    // Password complexity enforcement
+    private boolean isComplex(String password) {
+        if (password == null) return false;
+        // Minimum 8 characters, at least one uppercase, one lowercase, one digit, one special character
+        if (password.length() < 8) return false;
+        boolean hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) hasUpper = true;
+            else if (Character.isLowerCase(c)) hasLower = true;
+            else if (Character.isDigit(c)) hasDigit = true;
+            else if ("!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~".indexOf(c) >= 0) hasSpecial = true;
+        }
+        return hasUpper && hasLower && hasDigit && hasSpecial;
     }
 }

@@ -38,7 +38,8 @@ public class EncDec {
 
     // PoC: weak encoding method
 
-    private static final String SALT = RandomStringUtils.randomAlphabetic(10);
+    // private static final String SALT = RandomStringUtils.randomAlphabetic(10);
+    // Use a securely generated, per-user (or per-cookie) salt or, better yet, use a proper keyed cryptographic hash.
 
     private EncDec() {
 

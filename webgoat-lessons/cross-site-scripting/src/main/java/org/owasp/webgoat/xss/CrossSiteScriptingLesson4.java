@@ -43,7 +43,7 @@ public class CrossSiteScriptingLesson4 extends AssignmentEndpoint {
     @ResponseBody
     public AttackResult completed(@RequestParam String editor2) {
 
-        String editor = editor2.replaceAll("\\<.*?>", "");
+        String editor = new AntiSamy().scan(editor2, Policy.getInstance("antisamy-slashdot.xml")).getCleanHTML();
         log.debug(editor);
 
         if ((editor.contains("Policy.getInstance(\"antisamy-slashdot.xml\"") || editor.contains(".scan(newComment, \"antisamy-slashdot.xml\"") || editor.contains(".scan(newComment, new File(\"antisamy-slashdot.xml\")")) &&

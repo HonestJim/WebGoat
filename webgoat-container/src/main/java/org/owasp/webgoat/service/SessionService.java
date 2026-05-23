@@ -53,9 +53,12 @@ public class SessionService {
             attributes.add(name);
         }
         Collections.sort(attributes);
+        // Only allow-list safe session attributes to expose
         for (String attribute : attributes) {
-            String value = session.getAttribute(attribute) + "";
-            sb.append(attribute).append(" = ").append(value).append("\n");
+            if ("safeAttribute1".equals(attribute) || "safeAttribute2".equals(attribute)) {
+                String value = session.getAttribute(attribute) + "";
+                sb.append(attribute).append(" = ").append(value).append("\n");
+            }
         }
         return sb.toString();
     }

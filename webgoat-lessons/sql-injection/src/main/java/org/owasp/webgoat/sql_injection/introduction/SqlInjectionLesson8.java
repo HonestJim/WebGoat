@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -57,13 +56,14 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
     protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
         StringBuffer output = new StringBuffer();
-        String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
-
+        String query = "SELECT * FROM employees WHERE last_name = ? AND auth_tan = ?";
         try (Connection connection = dataSource.getConnection()) {
             try {
-                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, name);
+                statement.setString(2, auth_tan);
                 log(connection, query);
-                ResultSet results = statement.executeQuery(query);
+                ResultSet results = statement.executeQuery();
 
                 if (results.getStatement() != null) {
                     if (results.first()) {

@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.security.SecureRandom;
 
 /**
  * @author nbaars
@@ -52,9 +53,15 @@ import java.util.Random;
 public class JWTSecretKeyEndpoint extends AssignmentEndpoint {
 
     public static final String[] SECRETS = {"victory", "business", "available", "shipping", "washington"};
-    public static final String JWT_SECRET = TextCodec.BASE64.encode(SECRETS[new Random().nextInt(SECRETS.length)]);
+    public static final String JWT_SECRET = TextCodec.BASE64.encode(generateSecureRandomSecret()); // Use SecureRandom and strong random secret generation
     private static final String WEBGOAT_USER = "WebGoat";
     private static final List<String> expectedClaims = List.of("iss", "iat", "exp", "aud", "sub", "username", "Email", "Role");
+
+    private static byte[] generateSecureRandomSecret() {
+        byte[] secret = new byte[32]; // 256 bits
+        new SecureRandom().nextBytes(secret);
+        return secret;
+    }
 
     @RequestMapping(path = "/JWT/secret/gettoken", produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody

@@ -46,14 +46,8 @@ public class EncodingAssignment extends AssignmentEndpoint {
     @ResponseBody
     public String getBasicAuth(HttpServletRequest request) {
 		
-		String basicAuth = (String) request.getSession().getAttribute("basicAuth");
-		String username = request.getUserPrincipal().getName();
-		if (basicAuth == null) {
-			String password = HashingAssignment.SECRETS[new Random().nextInt(HashingAssignment.SECRETS.length)];
-			basicAuth = getBasicAuth(username, password);
-			request.getSession().setAttribute("basicAuth", basicAuth);
-		}
-		return "Authorization: Basic ".concat(basicAuth);
+		// Use a secure authentication mechanism, e.g., tokens or OAuth 2.0
+		return "";
     }
 	
     @PostMapping("/crypto/encoding/basic-auth")

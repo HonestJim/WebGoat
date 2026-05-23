@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -68,13 +67,15 @@ public class SqlInjectionLesson5 extends AssignmentEndpoint {
 
     protected AttackResult injectableQuery(String query) {
         try (Connection connection = dataSource.getConnection()) {
-            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
-                statement.executeQuery(query);
-                if (checkSolution(connection)) {
-                    return success(this).build();
-                }
-                return failed(this).output("Your query was: " + query).build();
+            // FIX: Use parameterized PreparedStatements instead of Statement to avoid SQL Injection
+            String sql = "SELECT * FROM GRANT_RIGHTS WHERE SOME_COLUMN = ?";
+            java.sql.PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, query);
+            ResultSet rs = ps.executeQuery();
+            if (checkSolution(connection)) {
+                return success(this).build();
             }
+            return failed(this).output("Your query was: " + query).build();
         } catch (Exception e) {
             return failed(this).output(this.getClass().getName() + " : " + e.getMessage() + "<br> Your query was: " + query).build();
         }

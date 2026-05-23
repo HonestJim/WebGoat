@@ -50,12 +50,21 @@ function getServers(column) {
             }
             server = server.replace('ONLINE', status);
             server = server.replace('STATUS', status);
-            server = server.replace('HOSTNAME', result[i].hostname);
-            server = server.replace('IP', result[i].ip);
-            server = server.replace('MAC', result[i].mac);
-            server = server.replace('DESCRIPTION', result[i].description);
+            server = server.replace('HOSTNAME', escapeHtml(result[i].hostname));
+            server = server.replace('IP', escapeHtml(result[i].ip));
+            server = server.replace('MAC', escapeHtml(result[i].mac));
+            server = server.replace('DESCRIPTION', escapeHtml(result[i].description));
             $("#servers").append(server);
         }
 
     });
+}
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

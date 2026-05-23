@@ -20,13 +20,18 @@ $(function () {
             let questionsJson = json;
             var questionsObj = JSON.parse(questionsJson);
             let html = "";
+            function escapeHtml(str) {
+              return str.replace(/[&<>"']/g, function (m) {
+                return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]);
+              });
+            }
             jQuery.each(questionsObj, function(i, obj) {
                 jQuery.each(obj, function(j, quest) {
-                  html += "<div id='question_" + j + "' class='quiz_question' name='question'><p>" + (j+1) + ".&nbsp;" + quest.text + "</p>";
+                  html += "<div id='question_" + j + "' class='quiz_question' name='question'><p>" + (j+1) + ".&nbsp;" + escapeHtml(quest.text) + "</p>";
                   html += "<fieldset>";
                   jQuery.each(quest.solutions, function(k, solution) {
                     solution = "Solution " + k + ": " + solution;
-                    html += '<input id="question_' + j + '_' + k + '_input" type="radio" name="question_' + j +'_solution" value="' + solution + '" required><label for="question_' + j + '_' + k + '_input">' + solution + '</label><br>';
+                    html += '<input id="question_' + j + '_' + k + '_input" type="radio" name="question_' + j +'_solution" value="' + escapeHtml(solution) + '" required><label for="question_' + j + '_' + k + '_input">' + escapeHtml(solution) + '</label><br>';
                   });
                   html += "</fieldset></div>";
                 });

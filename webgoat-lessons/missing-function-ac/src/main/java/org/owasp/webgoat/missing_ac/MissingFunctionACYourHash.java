@@ -47,7 +47,7 @@ public class MissingFunctionACYourHash extends AssignmentEndpoint {
         String currentUser = getWebSession().getUserName();
         WebGoatUser user = userService.loadUserByUsername(currentUser);
         DisplayUser displayUser = new DisplayUser(user);
-        if (userHash.equals(displayUser.getUserHash())) {
+        if (currentUser.equals("AUTHORIZED_USER")) { // Use actual role or permission checks
             return success(this).feedback("access-control.hash.success").build();
         } else {
             return failed(this).feedback("access-control.hash.close").build();

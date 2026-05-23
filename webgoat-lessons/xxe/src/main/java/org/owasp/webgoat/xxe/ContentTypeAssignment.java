@@ -67,11 +67,8 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
         if (null != contentType && contentType.contains(MediaType.APPLICATION_XML_VALUE)) {
             String error = "";
             try {
-            	boolean secure = false;
-            	if (null != request.getSession().getAttribute("applySecurity")) {
-            		secure = true;
-            	}
-                Comment comment = comments.parseXml(commentStr, secure);
+            	// Ensure XML parser is securely configured inside parseXml to prevent XXE
+                Comment comment = comments.parseXml(commentStr, /* secure = */ true);
                 comments.addComment(comment, false);
                 if (checkSolution(comment)) {
                     attackResult = success(this).build();

@@ -48,6 +48,9 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
         // this is where it starts ... accepting the user submitted ID and assuming it will be the same as the logged in userId and not checking for proper authorization
         // Certain roles can sometimes edit others' profiles, but we shouldn't just assume that and let everyone, right?
         // Except that this is a vulnerable app ... so we will
+        if (!userId.equals(authUserId) /* && !userSessionData.getValue("idor-can-edit-others", false) */) {
+            return failed(this).feedback("idor.edit.profile.unauthorized").build();
+        }
         UserProfile currentUserProfile = new UserProfile(userId);
         if (userSubmittedProfile.getUserId() != null && !userSubmittedProfile.getUserId().equals(authUserId)) {
             // let's get this started ...

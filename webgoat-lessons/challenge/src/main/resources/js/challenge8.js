@@ -49,7 +49,7 @@ function doVote(stars) {
         } else {
             $("#voteResultMsg").addClass('alert-success alert-dismissable');
         }
-        $("#voteResultMsg").html(result["message"]);
+        $("#voteResultMsg").text(result["message"]);
         $("#voteResultMsg").show();
     })
     loadVotes();

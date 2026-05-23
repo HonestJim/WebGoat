@@ -15,36 +15,8 @@
               method="POST"
               action="/WebGoat/HtmlTampering/task">
             <script>
-                var regex = /^2999.99$/;
-                var price = 2999.99;
-                document.getElementById("total").innerHTML = '$' + price.toString();
-                var total = price * document.task.QTY.value;
-                document.getElementById("total").innerHTML = '$' + total;
-                document.getElementById("subtotal").innerHTML = '$' + total;
-                document.getElementById("totalAmount").innerHTML = '$' + total;
-
-                $('#remove').click(function () {
-                    document.getElementById("QTY").value = 1;
-                    update();
-                });
-
-                $("#QTY").on('change keydown paste input blur', function () {
-                    update();
-                });
-
-                function update() {
-                    price = $('#price').text();
-                    if (!regex.test(price.toString())) {
-                        alert('Data tampering is disallowed');
-                        document.getElementById("price").innerHTML = 2999.99;
-                        update();
-                    }
-                    var total = price * document.task.QTY.value;
-                    $('#total').text('$' + total.toFixed(2));
-                    $('#subtotal').text('$' + total.toFixed(2));
-                    $('#totalAmount').text('$' + total.toFixed(2));
-                    $('#Total').val(total.toFixed(2));
-                }
+                // Display calculation on client side for UI only
+                // DO NOT trust client-side values on server
             </script>
             <div class="container-fluid">
                 <div class="row">

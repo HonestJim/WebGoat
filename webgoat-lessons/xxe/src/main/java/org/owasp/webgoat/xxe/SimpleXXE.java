@@ -73,7 +73,8 @@ public class SimpleXXE extends AssignmentEndpoint {
         	if (null != request.getSession().getAttribute("applySecurity")) {
         		secure = true;
         	}
-            Comment comment = comments.parseXml(commentStr, secure);
+            // Ensure XML parser in comments.parseXml disables DTD and external entities.
+            Comment comment = comments.parseXml(commentStr, true /* enforce secure processing */);
             //System.err.println("Comment " + comment);
             comments.addComment(comment, false);
             if (checkSolution(comment)) {

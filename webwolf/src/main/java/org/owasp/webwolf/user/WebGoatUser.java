@@ -47,7 +47,10 @@ public class WebGoatUser implements UserDetails {
 
     @Id
     private String username;
-    private String password;
+    private String passwordHash;
+    // Store only the password hash, not the plaintext password.
+    // In your constructor or wherever you set the password, hash it first:
+    // this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
     private String role = ROLE_USER;
     @Transient
     private User user;
@@ -89,5 +92,3 @@ public class WebGoatUser implements UserDetails {
         return this.user.isEnabled();
     }
 }
-
-

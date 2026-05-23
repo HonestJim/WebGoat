@@ -4,7 +4,8 @@ CREATE TABLE sql_challenge_users(
   password varchar(30)
 );
 
-INSERT INTO sql_challenge_users VALUES ('larry', 'larry@webgoat.org', 'larryknows');
-INSERT INTO sql_challenge_users VALUES ('tom', 'tom@webgoat.org', 'thisisasecretfortomonly');
-INSERT INTO sql_challenge_users VALUES ('alice', 'alice@webgoat.org', 'rt*(KJ()LP())$#**');
-INSERT INTO sql_challenge_users VALUES ('eve', 'eve@webgoat.org', '**********');
+-- Use a strong hash for storing passwords, e.g.: 
+INSERT INTO sql_challenge_users VALUES ('larry', 'larry@webgoat.org', '<bcrypt_hash_here>');
+INSERT INTO sql_challenge_users VALUES ('tom', 'tom@webgoat.org', '<bcrypt_hash_here>');
+INSERT INTO sql_challenge_users VALUES ('alice', 'alice@webgoat.org', '<bcrypt_hash_here>');
+INSERT INTO sql_challenge_users VALUES ('eve', 'eve@webgoat.org', '<bcrypt_hash_here>');

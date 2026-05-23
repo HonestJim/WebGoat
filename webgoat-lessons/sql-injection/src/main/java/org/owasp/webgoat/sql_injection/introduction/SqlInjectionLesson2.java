@@ -1,4 +1,3 @@
-
 /*
  * This file is part of WebGoat, an Open Web Application Security Project utility. For details, please see http://www.owasp.org/
  *
@@ -35,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import static java.sql.ResultSet.CONCUR_READ_ONLY;
 import static java.sql.ResultSet.TYPE_SCROLL_INSENSITIVE;
@@ -52,20 +52,22 @@ public class SqlInjectionLesson2 extends AssignmentEndpoint {
 
     @PostMapping("/SqlInjection/attack2")
     @ResponseBody
-    public AttackResult completed(@RequestParam String query) {
-        return injectableQuery(query);
+    public AttackResult completed(@RequestParam String department) {
+        return injectableQuery(department);
     }
 
-    protected AttackResult injectableQuery(String query) {
+    protected AttackResult injectableQuery(String department) {
         try (var connection = dataSource.getConnection()) {
-            Statement statement = connection.createStatement(TYPE_SCROLL_INSENSITIVE, CONCUR_READ_ONLY);
-            ResultSet results = statement.executeQuery(query);
+            String sql = "SELECT * FROM employees WHERE department = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, department);
+            ResultSet results = ps.executeQuery();
             StringBuffer output = new StringBuffer();
 
             results.first();
 
             if (results.getString("department").equals("Marketing")) {
-                output.append("<span class='feedback-positive'>" + query + "</span>");
+                output.append("<span class='feedback-positive'>" + department + "</span>");
                 output.append(SqlInjectionLesson8.generateTable(results));
                 return success(this).feedback("sql-injection.2.success").output(output.toString()).build();
             } else {

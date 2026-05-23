@@ -96,7 +96,7 @@ public class ForgedReviews extends AssignmentEndpoint {
         reviews.add(review);
         userReviews.put(webSession.getUserName(), reviews);
         //short-circuit
-        if (validateReq == null || !validateReq.equals(weakAntiCSRF)) {
+        if (validateReq == null || !validateReq.equals(webSession.getCSRFToken())) {
             return failed(this).feedback("csrf-you-forgot-something").build();
         }
         //we have the spoofed files
@@ -107,8 +107,3 @@ public class ForgedReviews extends AssignmentEndpoint {
         }
     }
 }
-
-
-
-
-

@@ -40,6 +40,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+// For JWT fix:
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
 /***
  *
  * @author Angel Olle Blazquez
@@ -52,6 +57,8 @@ public class SpoofCookieAssignment extends AssignmentEndpoint {
     private static final String COOKIE_NAME = "spoof_auth";
     private static final String COOKIE_INFO = "Cookie details for user %s:<br />" + COOKIE_NAME + "=%s";
     private static final String ATTACK_USERNAME = "tom";
+    // Example secret for JWT signing (should be at least 256 bits for HS256)
+    private static final String secret = "ThisIsASecretKeyForJwtSigning1234567890!";
 
     private static final Map<String, String> users = Map.of(
         "webgoat", "webgoat",
@@ -89,7 +96,10 @@ public class SpoofCookieAssignment extends AssignmentEndpoint {
 
         String authPassword = users.getOrDefault(lowerCasedUsername, "");
         if (!authPassword.isBlank() && authPassword.equals(password)) {
-            String newCookieValue = EncDec.encode(lowerCasedUsername);
+            // Example fix using JWT:
+            String newCookieValue = Jwts.builder().claim("user", lowerCasedUsername)
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()), SignatureAlgorithm.HS256)
+                .compact();
             Cookie newCookie = new Cookie(COOKIE_NAME, newCookieValue);
             newCookie.setPath("/WebGoat");
             newCookie.setSecure(true);

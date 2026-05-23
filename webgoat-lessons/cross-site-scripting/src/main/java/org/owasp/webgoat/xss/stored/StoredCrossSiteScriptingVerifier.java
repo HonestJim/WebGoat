@@ -40,8 +40,11 @@ public class StoredCrossSiteScriptingVerifier extends AssignmentEndpoint {
     @PostMapping("/CrossSiteScriptingStored/stored-xss-follow-up")
     @ResponseBody
     public AttackResult completed(@RequestParam String successMessage) {
+        // Only accept strictly validated (e.g., numeric/token) values
+        if (!successMessage.matches("^[a-zA-Z0-9]+$")) {
+            return failed(this).feedback("invalid-input").build();
+        }
         UserSessionData userSessionData = getUserSessionData();
-
         if (successMessage.equals(userSessionData.getValue("randValue").toString())) {
             return success(this).feedback("xss-stored-callback-success").build();
         } else {

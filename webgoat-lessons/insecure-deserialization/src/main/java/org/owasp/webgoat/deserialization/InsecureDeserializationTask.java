@@ -51,7 +51,9 @@ public class InsecureDeserializationTask extends AssignmentEndpoint {
 
         b64token = token.replace('-', '+').replace('_', '/');
 
-        try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
+        // Use a safe deserialization approach, e.g. JSON parsing with strict schema validation
+        // Or validate type whitelist with a custom ObjectInputStream:
+        try (ObjectInputStream ois = new ValidatingObjectInputStream(new ByteArrayInputStream(Base64.getDecoder().decode(b64token)))) {
             before = System.currentTimeMillis();
             Object o = ois.readObject();
             if (!(o instanceof VulnerableTaskHolder)) {

@@ -50,16 +50,20 @@ function getVotings() {
                 voteTemplate = voteTemplate.replace('ACTIVE', '');
                 voteTemplate = voteTemplate.replace('BUTTON', 'btn-primary');
             }
-            voteTemplate = voteTemplate.replace(/TITLE/g, result[i].title);
-            voteTemplate = voteTemplate.replace('INFORMATION', result[i].information || '');
-            voteTemplate = voteTemplate.replace('NO_VOTES', result[i].numberOfVotes || '');
-            voteTemplate = voteTemplate.replace('AVERAGE', result[i].average || '');
-
+            // Utility to escape HTML
+            function escapeHtml(string) {
+                return String(string).replace(/[&<>{}"']/g, function (s) {
+                    return ({'&':'&amp;','<':'&lt;','>':'&gt;','{':'&#123;','}':'&#125;','\"':'&quot;',"'":'&#39;'})[s];
+                });
+            }
+            voteTemplate = voteTemplate.replace(/TITLE/g, escapeHtml(result[i].title));
+            voteTemplate = voteTemplate.replace('INFORMATION', escapeHtml(result[i].information || ''));
+            voteTemplate = voteTemplate.replace('NO_VOTES', escapeHtml(result[i].numberOfVotes || ''));
+            voteTemplate = voteTemplate.replace('AVERAGE', escapeHtml(result[i].average || ''));
             var hidden = (result[i].numberOfVotes === undefined ? 'hidden' : '');
             voteTemplate = voteTemplate.replace(/HIDDEN_VIEW_VOTES/g, hidden);
             hidden = (result[i].average === undefined ? 'hidden' : '');
             voteTemplate = voteTemplate.replace(/HIDDEN_VIEW_RATING/g, hidden);
-
             $("#votesList").append(voteTemplate);
         }
     })
@@ -84,4 +88,3 @@ function vote(title) {
         )
     }
 }
-

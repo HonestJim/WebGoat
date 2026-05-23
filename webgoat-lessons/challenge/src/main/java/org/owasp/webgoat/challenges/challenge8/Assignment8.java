@@ -37,8 +37,11 @@ public class Assignment8 extends AssignmentEndpoint {
     @GetMapping(value = "/challenge/8/vote/{stars}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> vote(@PathVariable(value = "stars") int nrOfStars, HttpServletRequest request) {
-        //Simple implementation of VERB Based Authentication
-        String msg = "";
+        // Require authentication
+        if (!userIsAuthenticated(request)) {
+            var json = Map.of("error", true, "message", "Sorry but you need to login first in order to vote");
+            return ResponseEntity.status(401).body(json);
+        }
         if (request.getMethod().equals("GET")) {
             var json = Map.of("error", true, "message", "Sorry but you need to login first in order to vote");
             return ResponseEntity.status(200).body(json);
@@ -66,4 +69,3 @@ public class Assignment8 extends AssignmentEndpoint {
         throw new IllegalStateException("Should never be called, challenge specific method");
     }
 }
-

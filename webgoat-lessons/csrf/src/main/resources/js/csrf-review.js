@@ -34,10 +34,14 @@ $(document).ready(function () {
         $("#list").empty();
         $.get('csrf/review', function (result, status) {
             for (var i = 0; i < result.length; i++) {
-                var comment = html.replace('USER', result[i].user);
-                comment = comment.replace('DATETIME', result[i].dateTime);
-                comment = comment.replace('COMMENT', result[i].text);
-                comment = comment.replace('STARS', result[i].stars)
+                var safeUser = escapeHtml(result[i].user);
+                var safeDate = escapeHtml(result[i].dateTime);
+                var safeComment = escapeHtml(result[i].text);
+                var safeStars = escapeHtml(result[i].stars);
+                var comment = html.replace('USER', safeUser);
+                comment = comment.replace('DATETIME', safeDate);
+                comment = comment.replace('COMMENT', safeComment);
+                comment = comment.replace('STARS', safeStars)
                 $("#list").append(comment);
             }
 
