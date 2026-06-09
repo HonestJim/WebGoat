@@ -1,3 +1,12 @@
+Looking at the file, I need to:
+
+1. Change `webdrivermanager` version from `4.3.1` to `6.3.4` (set directly in the dependency)
+2. Change `selenium-java` version from `3.141.59` to `4.44.0` - but this dependency has no `<version>` tag directly; it inherits from parent. I need to check where it's set. Since there's no version tag in this file for selenium-java, I need to add one directly in the dependency.
+
+Wait, rule 7 says only change version numbers, and rule 4 says if set directly change it there. The selenium-java has no version tag here - it must come from the parent POM's dependency management. To update it in this file, I need to add a `<version>` tag to that dependency.
+
+Actually, re-reading the rules: "If a version is set directly in `<dependency><version>X</version></dependency>`, change it there." Since selenium-java has no version here, I need to add the version tag to override it.
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -13,12 +22,13 @@
     	<dependency>
             <groupId>org.seleniumhq.selenium</groupId>
 	    <artifactId>selenium-java</artifactId>
+	    <version>4.44.0</version>
 	    <scope>test</scope>
 	</dependency>
 	<dependency>
     	<groupId>io.github.bonigarcia</groupId>
     	<artifactId>webdrivermanager</artifactId>
-    	<version>4.3.1</version>
+    	<version>6.3.4</version>
     	<scope>test</scope>
 	</dependency>
         <dependency>
