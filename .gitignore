@@ -55,3 +55,4 @@ webgoat.script
 TestClass.class
 **/*.flattened-pom.xml
 /.gitconfig
+graphify-out/
