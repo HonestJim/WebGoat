@@ -12,13 +12,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.DriverManagerType;
 
 public class SeleniumTest extends IntegrationTest {
 
 	static {
 		try {
-			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+			WebDriverManager.firefoxdriver().setup();
 		} catch (Exception e) {
 			//sometimes a 403 cause an ExceptionInInitializerError
 		}
