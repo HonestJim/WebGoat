@@ -7,32 +7,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.DriverManagerType;
 
 public class SeleniumTest extends IntegrationTest {
 
-	static {
-		try {
-			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
-		} catch (Exception e) {
-			//sometimes a 403 cause an ExceptionInInitializerError
-		}
-	}
 	private WebDriver driver;
 
 	@BeforeEach
 	public void setUpAndLogin() {
 		try {
-			FirefoxBinary firefoxBinary = new FirefoxBinary();
-			firefoxBinary.addCommandLineOptions("--headless");
-
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
-			firefoxOptions.setBinary(firefoxBinary);
+			firefoxOptions.addArguments("--headless");
+			try {
+				WebDriverManager.firefoxdriver().setup();
+			} catch (Exception e) {
+				//sometimes a 403 cause an ExceptionInInitializerError
+			}
 			driver = new FirefoxDriver(firefoxOptions);
 			driver.get(url("/login"));
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
