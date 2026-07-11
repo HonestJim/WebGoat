@@ -16,7 +16,7 @@ public class SeleniumTest extends IntegrationTest {
 
 	static {
 		try {
-			WebDriverManager.firefoxdriver().setup();
+			WebDriverManager.firefoxdriver().manage();
 		} catch (Exception e) {
 			// sometimes a 403 causes an ExceptionInInitializerError
 		}
