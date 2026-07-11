@@ -1,26 +1,24 @@
 package org.owasp.webgoat;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.config.DriverManagerType;
 
 public class SeleniumTest extends IntegrationTest {
 
 	static {
 		try {
-			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+			WebDriverManager.firefoxdriver().manage();
 		} catch (Exception e) {
-			//sometimes a 403 cause an ExceptionInInitializerError
+			// sometimes a 403 causes an ExceptionInInitializerError
 		}
 	}
 	private WebDriver driver;
@@ -28,14 +26,11 @@ public class SeleniumTest extends IntegrationTest {
 	@BeforeEach
 	public void setUpAndLogin() {
 		try {
-			FirefoxBinary firefoxBinary = new FirefoxBinary();
-			firefoxBinary.addCommandLineOptions("--headless");
-
 			FirefoxOptions firefoxOptions = new FirefoxOptions();
-			firefoxOptions.setBinary(firefoxBinary);
+			firefoxOptions.addArguments("--headless");
 			driver = new FirefoxDriver(firefoxOptions);
 			driver.get(url("/login"));
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 			// Login
 			driver.findElement(By.name("username")).sendKeys(getWebgoatUser());
 			driver.findElement(By.name("password")).sendKeys("password");

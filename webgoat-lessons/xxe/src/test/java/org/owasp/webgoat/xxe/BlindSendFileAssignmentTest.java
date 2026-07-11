@@ -4,6 +4,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,6 +50,13 @@ public class BlindSendFileAssignmentTest extends LessonTest {
         this.port = webwolfServer.port();
         when(webSession.getCurrentLesson()).thenReturn(xxe);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (webwolfServer != null && webwolfServer.isRunning()) {
+            webwolfServer.stop();
+        }
     }
 
     @Test
