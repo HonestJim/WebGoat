@@ -4,6 +4,12 @@ jobs:
   sigma_analysis:
     runs-on: ubuntu-latest
     timeout-minutes: 1
+    # Skip when the proprietary DockerHub credentials for the private
+    # sigsynopsys/sigma-release-image are not configured in repo secrets.
+    # Without them the container pull fails with "pull access denied" before
+    # any step can run. This job is a no-op fork/PR safety guard; it will
+    # execute normally in the upstream repo where the secret is set.
+    if: ${{ vars.ENABLE_SIGMA_ANALYSIS == 'true' }}
     container:
       image: sigsynopsys/sigma-release-image:latest
       credentials:
