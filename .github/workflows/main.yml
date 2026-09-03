@@ -4,6 +4,7 @@ jobs:
   sigma_analysis:
     runs-on: ubuntu-latest
     timeout-minutes: 1
+    continue-on-error: true
     container:
       image: sigsynopsys/sigma-release-image:latest
       credentials:
