@@ -207,6 +207,10 @@ define(['jquery',
             },
 
             navToPage: function (pageNum) {
+                if (this.paginationControlView == undefined) {
+                    //pagination not yet initialized; nothing to do
+                    return;
+                }
                 this.paginationControlView.setCurrentPage(pageNum);//provides validation
                 this.showCurContentPage(this.paginationControlView.currentPage);
                 this.paginationControlView.render();

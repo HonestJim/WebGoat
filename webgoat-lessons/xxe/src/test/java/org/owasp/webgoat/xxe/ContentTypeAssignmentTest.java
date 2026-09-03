@@ -25,6 +25,8 @@ package org.owasp.webgoat.xxe;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +68,11 @@ public class ContentTypeAssignmentTest extends LessonTest {
     }
 
     @Test
+    @EnabledOnOs({OS.LINUX, OS.MAC})
     public void workingAttack() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(
+                !System.getProperty("os.name").toLowerCase().contains("win"),
+                "XXE working attack test only runs on Linux/Mac (relies on file:/// listing Unix root directory entries)");
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/content-type")
                 .contentType(MediaType.APPLICATION_XML)
                 .content("<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM \"file:///\"> ]><comment><text>&root;</text></comment>"))
