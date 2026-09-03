@@ -23,6 +23,7 @@
 package org.owasp.webgoat.vulnerable_components;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.apache.commons.lang3.StringUtils;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentHints;
@@ -43,6 +44,9 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
         xstream.setClassLoader(Contact.class.getClassLoader());
         xstream.alias("contact", ContactImpl.class);
         xstream.ignoreUnknownElements();
+        // Intentionally weaken XStream security so the lesson demonstrates the
+        // CVE-2013-7285 dynamic-proxy payload (XStream >= 1.4.10 is secure by default).
+        xstream.addPermission(AnyTypePermission.ANY);
         Contact contact = null;
         
         try {
