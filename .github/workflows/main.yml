@@ -18,19 +18,16 @@ jobs:
     # `if` expression back to `${{ vars.RUN_SIGMA_ANALYSIS == 'true' }}` and
     # define the repo variable + secrets.
     if: ${{ false }}
-    container:
-      image: sigsynopsys/sigma-release-image:latest
-      credentials:
-        username: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_PASSWORD }}
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
+      - name: No-op (sigma_analysis disabled)
+        run: echo "sigma_analysis is disabled - requires proprietary DockerHub image"
  
       - name: SIGMA analysis
+        if: ${{ false }}
         run: sigma -j4 analyze --format sarif .
  
       - name: Upload SARIF file
+        if: ${{ false }}
         uses: actions/upload-artifact@v4
         with:
           name: sigma-results
