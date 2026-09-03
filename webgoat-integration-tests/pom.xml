@@ -21,27 +21,60 @@
     	<version>6.3.4</version>
     	<scope>test</scope>
 	</dependency>
+        <!-- Modern commons-io required by WebDriverManager (needs IOUtils).
+             Declared BEFORE webwolf so Maven's nearest-declaration rule picks
+             this version over the ancient commons-io 1.0 pinned in webwolf. -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.22.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-server</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-server</artifactId>
             <version>${project.version}</version>
             <classifier>internal</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webwolf</artifactId>
             <version>${project.version}</version>
             <classifier>internal</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webwolf</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
