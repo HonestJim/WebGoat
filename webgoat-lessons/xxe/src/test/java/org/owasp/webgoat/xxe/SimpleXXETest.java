@@ -57,6 +57,9 @@ public class SimpleXXETest extends LessonTest {
     @Test
     @EnabledOnOs({OS.LINUX, OS.MAC})
     public void workingAttack() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(
+                !System.getProperty("os.name").toLowerCase().contains("win"),
+                "XXE working attack test only runs on Linux/Mac (relies on file:/// listing Unix root directory entries)");
         //Call with XXE injection
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/simple")
                 .content("<?xml version=\"1.0\" standalone=\"yes\" ?><!DOCTYPE user [<!ENTITY root SYSTEM \"file:///\"> ]><comment><text>&root;</text></comment>"))
