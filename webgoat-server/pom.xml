@@ -13,6 +13,25 @@
         <start-class>org.owasp.webgoat.StartWebGoat</start-class>
     </properties>
 
+    <repositories>
+        <!-- Red Hat GA Maven repository: required to resolve productized
+             artifacts with the ".redhat-NNNNN" classifier (e.g. the
+             org.postgresql:postgresql:42.7.13.redhat-00001 version applied
+             by the SCA security patcher, which is not published to Maven
+             Central). -->
+        <repository>
+            <id>redhat-ga</id>
+            <name>Red Hat GA Repository</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
@@ -167,7 +186,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.7.11</version>
+            <version>42.7.13.redhat-00001</version>
         </dependency>
     </dependencies>
 
