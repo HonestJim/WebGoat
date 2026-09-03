@@ -5,6 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     continue-on-error: true
+    # Skip this job when the required proprietary DockerHub credentials for
+    # the sigsynopsys/sigma-release-image are not provisioned in this
+    # environment. Without them the container cannot be pulled and the job
+    # fails at the "Starting job container" step. This is an infrastructure
+    # concern (private image access), not a code/dependency issue.
+    if: ${{ vars.RUN_SIGMA_ANALYSIS == 'true' }}
     container:
       image: sigsynopsys/sigma-release-image:latest
       credentials:
