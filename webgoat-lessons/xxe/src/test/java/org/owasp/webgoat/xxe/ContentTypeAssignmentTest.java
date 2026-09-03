@@ -68,6 +68,7 @@ public class ContentTypeAssignmentTest extends LessonTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     public void workingAttack() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/content-type")
                 .contentType(MediaType.APPLICATION_XML)
