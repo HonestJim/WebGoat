@@ -21,6 +21,12 @@
     	<version>6.3.4</version>
     	<scope>test</scope>
 	</dependency>
+	<dependency>
+    	<groupId>commons-io</groupId>
+    	<artifactId>commons-io</artifactId>
+    	<version>2.22.0</version>
+    	<scope>test</scope>
+	</dependency>
         <dependency>
             <groupId>org.owasp.webgoat</groupId>
             <artifactId>webgoat-server</artifactId>
