@@ -23,12 +23,18 @@ public class SeleniumTest extends IntegrationTest {
 			System.getProperty("os.name", "").toLowerCase().contains("win");
 
 	static {
-		try {
-			if (!IS_WINDOWS) {
+		// Skip WebDriverManager setup on Windows entirely — Selenium/Firefox
+		// interaction is unreliable on windows-latest runners and this test
+		// class is disabled on Windows via @DisabledOnOs and a Maven profile.
+		if (!IS_WINDOWS) {
+			try {
 				WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+			} catch (Throwable t) {
+				// swallow — webdrivermanager 6.x may throw during setup
+				// (network 403, browser-cache init, etc.); a hard failure
+				// here would surface as ExceptionInInitializerError and
+				// abort unrelated tests in the same JVM.
 			}
-		} catch (Exception e) {
-			//sometimes a 403 cause an ExceptionInInitializerError
 		}
 	}
 	private WebDriver driver;
