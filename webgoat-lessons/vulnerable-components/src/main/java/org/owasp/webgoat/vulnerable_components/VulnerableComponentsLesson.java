@@ -40,6 +40,11 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
     public @ResponseBody
     AttackResult completed(@RequestParam String payload) {
         XStream xstream = new XStream();
+        // This lesson demonstrates a vulnerable XStream configuration (pre-1.4.18 behavior).
+        // Newer XStream versions enable a security allow-list by default which would block the
+        // exploit payload before it can be triggered. Restore the permissive legacy behavior so
+        // the lesson exploit (CVE-2013-7285 style) is reachable.
+        xstream.addPermission(com.thoughtworks.xstream.security.AnyTypePermission.ANY);
         xstream.setClassLoader(Contact.class.getClassLoader());
         xstream.alias("contact", ContactImpl.class);
         xstream.ignoreUnknownElements();
