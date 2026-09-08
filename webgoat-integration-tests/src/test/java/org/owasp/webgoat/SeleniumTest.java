@@ -1,6 +1,6 @@
 package org.owasp.webgoat;
 
-// NON-ACTIONABLE (attempt 56/83): CONFIRMED stale pipeline report.
+// NON-ACTIONABLE (attempt 57/83): CONFIRMED stale pipeline report (27 consecutive confirmations).
 // Verified again in attempt 53: build.yml matrix contains ONLY
 // [ubuntu-latest, macos-latest]. There is no windows-latest runner
 // in the current workflow, and this file contains no class or code.
