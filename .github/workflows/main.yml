@@ -1,3 +1,4 @@
+name: "Disabled sigma_analysis (non-actionable)"
 on: [workflow_dispatch]
 
 jobs:
@@ -6,5 +7,5 @@ jobs:
     if: ${{ false }}
     steps:
       - name: No-op
-        run: echo "sigma_analysis permanently disabled - private image not accessible (non-actionable)"
+        run: echo "sigma_analysis permanently disabled - private image sigsynopsys/sigma-release-image not accessible from public CI (non-actionable infrastructure issue)"
 
