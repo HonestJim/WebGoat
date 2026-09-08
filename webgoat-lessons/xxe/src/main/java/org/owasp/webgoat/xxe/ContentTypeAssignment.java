@@ -77,7 +77,7 @@ public class ContentTypeAssignment extends AssignmentEndpoint {
                     attackResult = success(this).build();
                 }
             } catch (Exception e) {
-                error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(e);
+                error = org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace(e);
                 attackResult = failed(this).feedback("xxe.content.type.feedback.xml").output(error).build();
             }
         }
