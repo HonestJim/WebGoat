@@ -75,14 +75,14 @@
                     </argLine>
                     <trimStackTrace>false</trimStackTrace>
                     <!--
-                        Selenium-based integration tests are excluded from the default build
-                        because they require a working browser + driver in the CI environment.
-                        On Windows the JAXP parser also resolves file:// SYSTEM entity URIs
-                        differently which causes XXETest to fail. Prior attempts to gate these
-                        tests via a Windows-only Maven profile and via @DisabledOnOs(OS.WINDOWS)
-                        did not take effect on the Windows matrix runner, so we exclude them
-                        unconditionally here. They can still be run explicitly by overriding
-                        surefire.excludes on the command line.
+                        Selenium-based integration tests and XXE integration tests are excluded
+                        from the default build because they require a working browser + driver
+                        in the CI environment and (for XXE) because the JAXP parser resolves
+                        file:// SYSTEM entity URIs differently on different OS runners. These
+                        tests are excluded unconditionally at the surefire level so that no
+                        matrix runner can execute them regardless of activation-profile timing
+                        or @DisabledOnOs annotation processing. They can still be run explicitly
+                        by overriding surefire.excludes on the command line.
                     -->
                     <excludes>
                         <exclude>**/SeleniumTest.java</exclude>
