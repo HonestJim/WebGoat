@@ -1,3 +1,6 @@
+# NON-ACTIONABLE: sigma_analysis requires private Docker image
+# sigsynopsys/sigma-release-image which cannot be pulled in public CI
+# without valid Synopsys DockerHub credentials. Not related to SCA patches.
 name: "Disabled sigma_analysis (non-actionable)"
 on: [workflow_dispatch]
 
