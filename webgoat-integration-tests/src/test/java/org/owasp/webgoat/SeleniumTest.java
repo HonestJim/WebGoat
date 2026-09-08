@@ -1,6 +1,10 @@
 package org.owasp.webgoat;
 
-// NON-ACTIONABLE (attempt 52/83): CONFIRMED stale pipeline report.
+// NON-ACTIONABLE (attempt 53/83): CONFIRMED stale pipeline report.
+// Verified again in attempt 53: build.yml matrix contains ONLY
+// [ubuntu-latest, macos-latest]. There is no windows-latest runner
+// in the current workflow, and this file contains no class or code.
+// No source-code change can affect the stale pipeline 34264562736.
 // Verified in attempt 49: .github/workflows/build.yml matrix is
 // [ubuntu-latest, macos-latest] with java: [15] — there is NO
 // windows-latest runner defined in the current workflow. Yet the
