@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
@@ -30,6 +31,12 @@ public class XXETest extends IntegrationTest {
     @Test
     @DisabledOnOs(value = OS.WINDOWS, disabledReason = "JAXP file:// URI entity resolution differs on Windows; same rationale as SimpleXXETest / ContentTypeAssignmentTest in the xxe lesson module.")
     public void runTests() throws IOException {
+        // Defensive runtime guard: even if the @DisabledOnOs annotation is stripped or the
+        // surefire <excludes> in pom.xml is bypassed by an alternate test invocation path,
+        // this assumption aborts the test (skip, not fail) on Windows. The XXE exploit
+        // payloads rely on POSIX-style "file:///" URI semantics that JAXP resolves differently
+        // on Windows, so the assignment cannot legitimately complete there.
+        Assumptions.assumeFalse(IS_WINDOWS, "XXE runTests is not supported on Windows (file:// URI resolution differs).");
         startLesson("XXE");
         webGoatHomeDirectory = getWebGoatServerPath();
         webwolfFileDir = getWebWolfServerPath();
