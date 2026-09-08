@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -26,6 +28,7 @@ public class XXETest extends IntegrationTest {
     private String webwolfFileDir;
 
     @Test
+    @DisabledOnOs(value = OS.WINDOWS, disabledReason = "JAXP file:// URI entity resolution differs on Windows; same rationale as SimpleXXETest / ContentTypeAssignmentTest in the xxe lesson module.")
     public void runTests() throws IOException {
         startLesson("XXE");
         webGoatHomeDirectory = getWebGoatServerPath();
@@ -40,6 +43,7 @@ public class XXETest extends IntegrationTest {
      * This test is to verify that all is secure when XXE security patch is applied.
      */
     @Test
+    @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Depends on runTests XXE flow which is Windows-incompatible.")
     public void xxeSecure() throws IOException {
         startLesson("XXE");
         webGoatHomeDirectory = getWebGoatServerPath();
