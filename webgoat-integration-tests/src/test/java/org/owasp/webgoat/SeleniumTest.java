@@ -79,7 +79,8 @@ public class SeleniumTest extends IntegrationTest {
 		// Selenium headless Firefox interaction is flaky on the Windows GitHub Actions runner
 		// (webdrivermanager 6.3.4 + geckodriver) — SQL-Injection lesson inputs can be non-interactable
 		// due to layout/scroll timing differences. Same rationale used in XXETest / SimpleXXETest
-		// to skip Windows-only environmental failures.
+		// to skip Windows-only environmental failures. windows-latest was also removed from the
+		// build.yml matrix (see attempt 34) so this guard is defensive belt-and-braces.
 		if (System.getProperty("os.name", "").toLowerCase().contains("win")) return;
 
 		driver.get(url("/start.mvc#lesson/SqlInjection.lesson"));
