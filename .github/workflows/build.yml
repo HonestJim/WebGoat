@@ -12,6 +12,7 @@ on:
       - master
       - develop
       - release/*
+      - 'patch/**'
     tags-ignore:
       - '*'
     paths-ignore:
