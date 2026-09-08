@@ -6,5 +6,5 @@ jobs:
     if: ${{ false }}
     steps:
       - name: No-op
-        run: echo "sigma_analysis disabled - private image requires admin-configured registry credentials"
+        run: echo "sigma_analysis disabled - private DockerHub image requires admin-configured secrets"
 
