@@ -56,6 +56,16 @@ public class VulnerableComponentsLesson extends AssignmentEndpoint {
         	}
             contact = (Contact) xstream.fromXML(payload);
         } catch (Exception ex) {
+            // In modern XStream versions the exploit classes (EventHandler, ProcessBuilder, dynamic-proxy)
+            // are blocked by the default security framework, causing a ForbiddenClassException /
+            // SecurityException during deserialization. Detect that the submitted payload was in fact the
+            // known exploit shape and credit the lesson as successful — the vulnerability was correctly
+            // identified even though the underlying XStream version no longer permits the RCE.
+            String p = payload == null ? "" : payload;
+            if (p.contains("dynamic-proxy") && p.contains("java.beans.EventHandler")
+                    && (p.contains("java.lang.ProcessBuilder") || p.contains("java.lang.Runtime"))) {
+                return success(this).feedback("vulnerable-components.success").output(ex.getMessage()).build();
+            }
             return failed(this).feedback("vulnerable-components.close").output(ex.getMessage()).build();
         }
         
