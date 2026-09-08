@@ -52,7 +52,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class SimpleXXE extends AssignmentEndpoint {
 
     private static final String[] DEFAULT_LINUX_DIRECTORIES = {"usr", "etc", "var"};
-    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files", "pagefile.sys"};
+    private static final String[] DEFAULT_WINDOWS_DIRECTORIES = {"Windows", "Program Files (x86)", "Program Files", "pagefile.sys", "Users", "PerfLogs", "ProgramData", "C:", ":\\"};
 
     @Value("${webgoat.server.directory}")
     private String webGoatHomeDirectory;
