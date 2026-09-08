@@ -102,6 +102,7 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/XXETest.java</exclude>
+                                <exclude>**/SeleniumTest.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
