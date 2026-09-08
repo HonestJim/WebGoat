@@ -19,9 +19,14 @@ import io.github.bonigarcia.wdm.config.DriverManagerType;
 @DisabledOnOs(OS.WINDOWS)
 public class SeleniumTest extends IntegrationTest {
 
+	private static final boolean IS_WINDOWS =
+			System.getProperty("os.name", "").toLowerCase().contains("win");
+
 	static {
 		try {
-			WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+			if (!IS_WINDOWS) {
+				WebDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
+			}
 		} catch (Exception e) {
 			//sometimes a 403 cause an ExceptionInInitializerError
 		}
