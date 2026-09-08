@@ -6,5 +6,5 @@ jobs:
     if: ${{ false }}
     steps:
       - name: No-op
-        run: echo "sigma_analysis disabled - private image sigsynopsys/sigma-release-image not accessible from this branch context"
+        run: echo "sigma_analysis disabled - private image requires admin-configured registry credentials"
 
