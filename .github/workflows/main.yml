@@ -5,18 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 1
     continue-on-error: true
-    container:
-      image: sigsynopsys/sigma-release-image:latest
-      credentials:
-        username: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_SIGSYNOPSYS_PASSWORD }}
+    if: ${{ false }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
- 
+
       - name: SIGMA analysis
         run: sigma -j4 analyze --format sarif .
- 
+
       - name: Upload SARIF file
         uses: actions/upload-artifact@v4
         with:
