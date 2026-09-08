@@ -73,9 +73,41 @@
                     <argLine>
                         --illegal-access=permit
                     </argLine>
+                    <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!--
+            On Windows the JAXP parser resolves file:// SYSTEM entity URIs differently than on
+            Linux/macOS, which causes XXETest / (and previously SimpleXXETest / ContentTypeAssignmentTest)
+            to fail when the exploit XML is submitted. The XXE lesson itself already excludes those
+            unit tests on Windows; do the same here at the surefire level for the integration test
+            as a belt-and-suspenders defense on top of the @DisabledOnOs(OS.WINDOWS) annotation.
+        -->
+        <profile>
+            <id>skip-windows-only-integration-tests</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/XXETest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
