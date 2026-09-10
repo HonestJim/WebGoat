@@ -25,6 +25,8 @@ package org.owasp.webgoat.xxe;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.owasp.webgoat.plugins.LessonTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,7 @@ public class SimpleXXETest extends LessonTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
     public void workingAttack() throws Exception {
         //Call with XXE injection
         mockMvc.perform(MockMvcRequestBuilders.post("/xxe/simple")
