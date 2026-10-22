@@ -102,7 +102,7 @@ public class PathTraversalTest extends IntegrationTest {
                 .get(uri)
                 .then()
                 .statusCode(200)
-                .content(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
+                .body(CoreMatchers.is("You found it submit the SHA-512 hash of your username as answer"));
 
         checkAssignment("/WebGoat/PathTraversal/random", Map.of("secret", Sha512DigestUtils.shaHex(getWebgoatUser())), true);
     }
